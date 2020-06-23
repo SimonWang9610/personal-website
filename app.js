@@ -6,9 +6,6 @@ const methodOverride = require('method-override');
 const path = require('path');
 
 
-const authenticated = require('./lib/middleware/authenticated');
-// const page = require('./lib/middleware/pager');
-const Comment = require('./lib/comment');
 const messages = require('./routes/messages');
 const daily = require('./routes/daily');
 const articles = require('./routes/articles');

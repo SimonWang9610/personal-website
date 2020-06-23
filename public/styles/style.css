@@ -64,3 +64,9 @@ a {
 .feedback {
     border: 1px solid black;
 }
+
+.selected {
+    color: red;
+    display: inline-block;
+    background-color: grey;
+}
