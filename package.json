@@ -1,0 +1,32 @@
+{
+  "name": "simonwang",
+  "version": "1.0.0",
+  "description": "simonwang.ca",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "method-override": "^3.0.0",
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimonWang9610/personal-website.git"
+  },
+  "author": "Dengpan Wang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SimonWang9610/personal-website/issues"
+  },
+  "homepage": "https://github.com/SimonWang9610/personal-website#readme"
+}

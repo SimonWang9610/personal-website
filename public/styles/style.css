@@ -1,0 +1,66 @@
+a {
+    color: blue;
+    font-weight: italic;
+}
+
+#photo img {
+    height: 150px;
+    width: 150px;
+    float: left;
+}
+
+
+.highlight {
+    font-weight: bold;
+    color: red;
+    background-color: grey;
+}
+
+#profile {
+    height:150px;
+    border: 1px solid black;
+    overflow: auto;
+}
+#nav {
+    float: left;
+    width: 150px;
+    border: 1px solid black;
+    margin: auto;
+}
+
+#nav div {
+    margin: auto;
+    text-align: center;
+}
+
+
+#container {
+    height: 400px;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+
+#pagination {
+    display: table;
+    margin: 0 auto;
+}
+
+#pagination #page-list {
+    min-width: 500px;
+    list-style: none;
+    padding-top: 20px;
+}
+
+#page-list li {
+    display: inline;
+}
+
+#page-list .activated {
+    color: red;
+    font-weight: bold;
+}
+
+.feedback {
+    border: 1px solid black;
+}
