@@ -1,10 +1,32 @@
-function displayMessages(rows) {
+var admin = 'secret';
+
+$('#profile button').click(function() {
+    admin = prompt('enter ADMIN key:');
+    // $.ajax({
+    //     type: 'GET',
+    //     url: '/auth',
+    //     data: {auth: auth},
+    //     dataType: 'json',
+    //     success: function(response) {
+    //         let identity = (response.identity == 'admin')? 'admin':'passenger';
+    //         let $btn = $('#profile button').html(identity);
+    //         $('<p/>').text(`You are ${response.identity}`).insertBefore($btn);
+    //     }
+    // });
+});
+
+
+function displayMessages(rows, admin) {
     let $contents = $('#contents');
     rows.forEach(row => {
         let $div_row = $('<div/>').addClass('feedback').appendTo($contents);
         let $div_user = $('<div/>').addClass('user').text(row.user).appendTo($div_row);
         let $div_date = $('<div/>').addClass('date').text(row.date).appendTo($div_row);
         let $div_body = $('<div/>').addClass('body').html(row.body).appendTo($div_row);
+        if (admin) {
+            let $delete_link = $('<a/>').addClass('delete-message')
+            .attr('href', '/messages/delete/' + row.id).text('Delete').appendTo($div_row);
+        }
     });
 }
 
@@ -28,14 +50,8 @@ function customizedEditor() {
     $('<input/>').attr('id', 'passenger').appendTo($span_email);
     let $span = $('<span/>').addClass('ql-submit').appendTo($('.ql-toolbar'));
     $('<button/>').html('Post').appendTo($span);
-    // $(document).on('click', '.ql-submit button', function(e) {
-    //     e.preventDefault();
-    //     let input = myQuill.getText();
-    //     let user = $('#passenger').val();
-    //     console.log(input);
-    //     console.log(user);
-    // });
 }
+
 
 $(function() {
     $('#link-messages a').click(function(e) {
@@ -43,13 +59,15 @@ $(function() {
         $('.selected').removeClass('selected');
         $(this).addClass('selected');
         $.ajax({
-            method: 'GET',
+            type: 'GET',
             url: '/messages',
+            data: {admin: admin},
             dataType: 'json',
-            success: function(data) {
-                $('#container').html(data.html);
-                displayMessages(data.rows);
-                pagination(data.number, data.page);
+            success: function(res) {
+                console.log(res.admin);
+                $('#container').html(res.html);
+                displayMessages(res.rows, res.admin);
+                pagination(res.number, res.page);
                 customizedEditor();
             },
             error: function(xhr, error) {console.error(error)}
@@ -57,26 +75,6 @@ $(function() {
     });
 });
 
-
-$(document).on('click', '#page-list a', function(e) {
-    e.preventDefault();
-    $('.activated').removeClass('activated');
-    $(this).addClass('activated');
-    console.log(this.attributes.href.value);
-    
-    $.ajax({
-        method: 'GET',
-        url: this.attributes.href.value,
-        dataType: 'json',
-        success: function(data) {
-            console.log(data);
-            $('#contents').empty();
-            displayMessages(data.rows);
-        },
-        error: (error) => {console.error(error)}
-    });
-
-});
 
 $(document).on('click', '.ql-submit button', function(e) {
     e.preventDefault();
@@ -91,16 +89,54 @@ $(document).on('click', '.ql-submit button', function(e) {
         date: date,
     };
     quill.setContents('');
-    console.log(comment);
     $.ajax({
         type: 'POST',
         url: '/messages',
         data: comment,
         dataType: 'json',
-        success: function(response) {
+        success: function(res) {
             $('#contents').empty();
-            displayMessages(response.rows);
+            displayMessages(res.rows, res.admin);
+            if (res.total && !$('#pagination').find('a').length) {
+                pagination(res.number, res.page);
+            }
         },
         error: function(error) {console.error(error)}
     })
+});
+
+$(document).on('click', '#page-list a', function(e) {
+    e.preventDefault();
+    $('.activated').removeClass('activated');
+    $(this).addClass('activated');
+    
+    $.ajax({
+        type: 'GET',
+        url: this.attributes.href.value,
+        data: {admin: admin},
+        dataType: 'json',
+        success: function(res) {
+            $('#contents').empty();
+            displayMessages(res.rows, res.admin);
+        },
+        error: (error) => {console.error(error)}
+    });
+
+});
+$(document).on('click', '.delete-message', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'GET',
+        url: this.attributes.href.value,
+        data: {admin: admin},
+        dataType: 'json',
+        success: function(res) {
+            $('#contents').empty();
+            displayMessages(res.rows, res.admin);
+            if (!res.total) {
+                $('#pagination').remove();
+            }
+        },
+        error: function(error) {console.error(error)}
+    });
 });

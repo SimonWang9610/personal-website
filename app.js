@@ -4,8 +4,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const methodOverride = require('method-override');
 const path = require('path');
+const fs = require('fs');
 
-
+const authenticated = require('./lib/middleware/authenticated');
 const messages = require('./routes/messages');
 const daily = require('./routes/daily');
 const articles = require('./routes/articles');
@@ -19,14 +20,20 @@ app.use(session());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
+app.use(authenticated);
 app.use('/messages', messages);
 app.use('/daily', daily);
 app.use('/articles', articles);
-//app.use(authenticated);
 
 app.get('/', (req, res) => {
     res.set('Content-type', 'text/html');
     res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
+app.get('/auth', (req, res) => {
+    res.json({
+        identity: req.user
+    });
 });
 
 app.listen(8000);
