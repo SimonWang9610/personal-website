@@ -32,23 +32,12 @@ router.get('/:page?', async (req, res, next) => {
     });
 });
 
-router.post('/', async (req, res,next) => {
-    let comment = new Comment(req.body);
-    comment.add().then(() => {
-        res.redirect('/messages');
-    }).catch(err => next(err));
-});
-
 router.get('/delete/:id?', async (req, res, next) => {
     let id = req.params.id
     let result = await Comment.delete(id);
     console.log(result);
     console.log(`Deleted ${id}`);
     res.redirect('/messages');
-    // result.then(() => {
-    //     console.log(`Deleted ${id}`);
-    //     res.redirect('/messages');
-    // }).catch(err => next(err));
 });
 
 router.get('/reply/:user?', async (req, res, next) => {
@@ -60,5 +49,13 @@ router.get('/reply/:user?', async (req, res, next) => {
         });
     });
 });
+
+router.post('/', async (req, res,next) => {
+    let comment = new Comment(req.body);
+    comment.add().then(() => {
+        res.redirect('/messages');
+    }).catch(err => next(err));
+});
+
 
 module.exports = router;

@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 
 app.get('/auth', (req, res) => {
     res.json({
-        identity: req.user
+        identity: res.locals.admin,
     });
 });
 

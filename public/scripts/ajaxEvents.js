@@ -2,6 +2,8 @@ const Articles = ['title', 'body', 'date'];
 const Messages = ['user', 'body', 'date'];
 const Plans = ['body', 'date', 'completed'];
 
+
+
 function displayMessages(rows, eventClass, rowClass, bodyClass, dateClass, action, admin) {
     let $contents = $('#contents');
     rows.forEach(row => {

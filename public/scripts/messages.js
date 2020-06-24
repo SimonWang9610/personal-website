@@ -1,20 +1,19 @@
-var admin = 'secret';
 
-$('#profile button').click(function() {
-    admin = prompt('enter ADMIN key:');
-    // $.ajax({
-    //     type: 'GET',
-    //     url: '/auth',
-    //     data: {auth: auth},
-    //     dataType: 'json',
-    //     success: function(response) {
-    //         let identity = (response.identity == 'admin')? 'admin':'passenger';
-    //         let $btn = $('#profile button').html(identity);
-    //         $('<p/>').text(`You are ${response.identity}`).insertBefore($btn);
-    //     }
-    // });
+$(document).on('click', '#admin a', function(e) {
+    e.preventDefault();
+    let admin = prompt('enter ADMIN key:');
+    $.ajax({
+        type: 'GET',
+        url: '/auth',
+        data: {admin: admin},
+        dataType: 'json',
+        success: function(response) {
+            let identity = (response.identity)? 'admin':'passenger';
+            let $p = $('<p/>').text('You are ' + identity).insertBefore($('#admin a'));
+            $('#admin a').hide();
+        }
+    });
 });
-
 
 function displayMessages(rows, admin) {
     let $contents = $('#contents');
@@ -61,10 +60,8 @@ $(function() {
         $.ajax({
             type: 'GET',
             url: '/messages',
-            data: {admin: admin},
             dataType: 'json',
             success: function(res) {
-                console.log(res.admin);
                 $('#container').html(res.html);
                 displayMessages(res.rows, res.admin);
                 pagination(res.number, res.page);
@@ -113,7 +110,6 @@ $(document).on('click', '#page-list a', function(e) {
     $.ajax({
         type: 'GET',
         url: this.attributes.href.value,
-        data: {admin: admin},
         dataType: 'json',
         success: function(res) {
             $('#contents').empty();
@@ -128,14 +124,15 @@ $(document).on('click', '.delete-message', function(e) {
     $.ajax({
         type: 'GET',
         url: this.attributes.href.value,
-        data: {admin: admin},
         dataType: 'json',
         success: function(res) {
             $('#contents').empty();
-            displayMessages(res.rows, res.admin);
             if (!res.total) {
                 $('#pagination').remove();
+                $('#contents').html('<p>Say something to me!</p>');
             }
+            displayMessages(res.rows, res.admin);
+            
         },
         error: function(error) {console.error(error)}
     });

@@ -10,3 +10,5 @@ $.each(TABS,(i) => {
     $a.text(key);
 });
 
+let $admin = $('<div/>').attr('id', 'admin').appendTo($('#profile'));
+let $auth = $('<a/>').attr('href', '/auth').text('ADMIN').appendTo($admin);
