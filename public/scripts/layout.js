@@ -11,4 +11,5 @@ $.each(TABS,(i) => {
 });
 
 let $admin = $('<div/>').attr('id', 'admin').appendTo($('#profile'));
-let $auth = $('<a/>').attr('href', '/auth').text('ADMIN').appendTo($admin);
+$('<p/>').addClass('identity').text('You are Passenger').appendTo($admin);
+let $auth = $('<a/>').attr('href', '/auth').text('get Permission').appendTo($admin);
