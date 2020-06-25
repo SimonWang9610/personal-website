@@ -5,6 +5,7 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const path = require('path');
 const fs = require('fs');
+// const {expressCspHeader, NONE, SELF} = require('express-csp-header');
 
 const authenticated = require('./lib/middleware/authenticated');
 const messages = require('./routes/messages');
@@ -21,6 +22,12 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.use(authenticated);
+// app.use(expressCspHeader({
+//     directives: {
+//         'default-src': [NONE],
+//         'img-src': [SELF],
+//     }
+// }));
 app.use('/messages', messages);
 app.use('/daily', daily);
 app.use('/articles', articles);

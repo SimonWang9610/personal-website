@@ -1,19 +1,3 @@
-$(document).on('click', '#admin a', function(e) {
-    e.preventDefault();
-    let admin = prompt('enter ADMIN key:');
-    $.ajax({
-        type: 'GET',
-        url: '/auth',
-        data: {admin: admin},
-        dataType: 'json',
-        success: function(response) {
-            let identity = (response.identity)? 'admin':'passenger';
-            let $identity = $('.identity');
-            $identity.text('You are ' + identity);
-            if (identity == 'admin') $('#admin a').hide();
-        }
-    });
-});
 
 const messageConfig = {
     eventClass: 'feedback',
@@ -21,41 +5,37 @@ const messageConfig = {
     bodyClass: 'body',
     dateClass: 'date',
     action: '/messages',
-}
-
-function customizedEditor() {
-    const myQuill = new Quill('#editor', {
-        theme: 'snow',
-    });
-    $('#editor').data('quill', myQuill);
-    let $span_email = $('<span/>').addClass('ql-email').appendTo('.ql-toolbar');
-    $('<input/>').attr('id', 'passenger').appendTo($span_email);
-    let $span = $('<span/>').addClass('ql-submit').appendTo($('.ql-toolbar'));
-    $('<button/>').html('Post').appendTo($span);
+    deleteClass: 'delete-message',
+    editorClass: 'ql-email',
+    submitClass: 'submit-message',
+    contentClass: 'ql-message',
+    inputId: 'passenger',
+    pageId: 'page-list-messages',
 }
 
 let loadMessages = function(res) {
     $('#container').html(res.html);
-    display(res.rows, messageConfig, res.admin);
-    pagination(res.number, res.page, messageConfig.action);
-    customizedEditor();
+    display(res.rows, messageConfig, res.admin, messages);
+    pagination(res.number, res.page, messageConfig);
+    editor(messageConfig, res.admin);
+    if (res.admin) $('#' + messageConfig.inputId).val('admin');
 }
 
-let displayMessages = function(res) {
+let pageMessages = function(res) {
     $('#contents').empty();
-    display(res.rows, messageConfig, res.admin);
-    if (res.total && !$('#pagination').find('a').length) {
-        pagination(res.number, res.page, messageConfig.action);
+    display(res.rows, messageConfig, res.admin, messages);
+    
+    if (res.number && $('#pagination').find('a').length != res.number) {
+        pagination(res.number, res.page, messageConfig);
     }
-}
 
-let deleteMessage = function(res) {
-    $('#contents').empty();
-    if (!res.total) {
+    if (!res.rows.length) {
         $('#pagination').remove();
     }
-    display(res.rows, messageConfig, res.admin);
+
+    if (res.admin) $('#' + messageConfig.inputId).val('admin');
 }
+
 
 $(function() {
     $('#link-messages a').click(function(e) {
@@ -67,12 +47,13 @@ $(function() {
 });
 
 
-$(document).on('click', '.ql-submit button', function(e) {
+$(document).on('click', '.' + messageConfig.submitClass, function(e) {
     e.preventDefault();
+    // e.stopPropagation();
     let quill = $('#editor').data('quill');
     // let input = quill.getContents();
-    let input = document.querySelector('.ql-editor').innerHTML;
-    let user = $('#passenger').val();
+    let input = document.querySelector('.' + messageConfig.contentClass).innerHTML;
+    let user = $('#' + messageConfig.inputId).val();
     let date = new Date().toISOString().slice(0, 19).replace('T', ' ');
     let comment = {
         user: user,
@@ -80,18 +61,20 @@ $(document).on('click', '.ql-submit button', function(e) {
         date: date,
     };
     quill.setContents('');
-    ajaxPost(messageConfig.action, comment, displayMessages);
+    ajaxPost(messageConfig.action, comment, pageMessages);
 });
 
-$(document).on('click', '#page-list a', function(e) {
+//redirect to the specific page
+$(document).on('click', '#' + messageConfig.pageId + ' a', function(e) {
     e.preventDefault();
     $('.activated').removeClass('activated');
     $(this).addClass('activated');
-    ajaxGet(this.attributes.href.value, displayMessages);
+    ajaxGet(this.attributes.href.value, pageMessages);
 });
 
 
-$(document).on('click', '.delete-message', function(e) {
+// delete message, must have admin permission
+$(document).on('click', '.' + messageConfig.deletClass, function(e) {
     e.preventDefault();
-    ajaxGet(this.attributes.href.value, deleteMessage);
+    ajaxGet(this.attributes.href.value, pageMessages);
 });

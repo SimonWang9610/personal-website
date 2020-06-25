@@ -1,7 +1,3 @@
-a {
-    color: blue;
-    font-weight: italic;
-}
 
 #photo img {
     height: 150px;
@@ -41,26 +37,6 @@ a {
 }
 
 
-#pagination {
-    display: table;
-    margin: 0 auto;
-}
-
-#pagination #page-list {
-    min-width: 500px;
-    list-style: none;
-    padding-top: 20px;
-}
-
-#page-list li {
-    display: inline;
-}
-
-#page-list .activated {
-    color: red;
-    font-weight: bold;
-}
-
 .feedback {
     border: 1px solid black;
 }
@@ -69,4 +45,43 @@ a {
     color: red;
     display: inline-block;
     background-color: grey;
+}
+
+
+#contents {
+    position: relative;
+}
+
+
+#pagination {
+    display: inline-block;
+    margin: 0 auto;
+    left: 30%;
+}
+
+#pagination ul {
+    min-width: 500px;
+    list-style: none;
+    padding-top: 20px;
+}
+
+#pagination ul li {
+    display: inline;
+}
+
+#pagination a {
+    color: black;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: grey;
+}
+
+#pagination a:hover {
+    background-color: yellowgreen;
+}
+
+#pagination .activated {
+    color: red;
+    text-decoration: underline;
+    font-weight: bold;
 }
