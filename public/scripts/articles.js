@@ -64,6 +64,11 @@ let singleArticle = function(res) {
     if (res.admin && !$('#editor').length) editor(articleConfig);
 }
 
+$(document).ready(() => {
+    $('#link-articles a').addClass('selected');
+    ajaxGet(articleConfig.action, loadArticle);
+});
+
 $(function() {
     $('#link-articles a').click(function(e) {
         e.preventDefault();

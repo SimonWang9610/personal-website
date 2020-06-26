@@ -83,6 +83,7 @@ function ajaxPost(url, data, callback) {
     });
 };
 
+
 //set admin interface
 $(document).on('click', '#admin a', function(e) {
     e.preventDefault();

@@ -9,7 +9,6 @@ router.get('/', async (req, res, next) => {
     let rows = await Article.getArticles();
     let total = rows.length;
     rows = rows.slice(0, PERPAGE);
-    console.log(rows);
     fs.readFile(path.join(__dirname, '../public', '/pages/articles.html'), 'utf8', (err, html) => {
         res.json({
             html: html,
@@ -25,7 +24,6 @@ router.get('/', async (req, res, next) => {
 //add a new article in database
 //redirect to /articles
 router.post('/', async (req, res, next) => {
-    console.log(req.body);
     await new Article(req.body).add().then(() => {
         res.redirect('/articles');
     }).catch(err =>  next(err));

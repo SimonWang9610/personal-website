@@ -25,7 +25,6 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res,next) => {
-    console.log(req.body);
     new Comment(req.body).add().then(() => {
         res.redirect('/messages');
     }).catch(err => next(err));
@@ -33,7 +32,6 @@ router.post('/', async (req, res,next) => {
 
 router.get('/:page?', async (req, res, next) => {
     let page = req.params.page;
-    console.log(page);
     await Comment.getRange((page - 1) * PERPAGE, page * PERPAGE).then(rows => {
         res.json({
             rows: rows,
@@ -45,7 +43,6 @@ router.get('/:page?', async (req, res, next) => {
 router.get('/delete/:id?', async (req, res, next) => {
     let id = req.params.id
     await Comment.delete(id).then(() => {
-        console.log(`Deleted ${id}`);
         res.redirect('/messages');
     }).catch(err => next(err));
 });
