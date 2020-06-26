@@ -9,7 +9,6 @@ const fs = require('fs');
 
 const authenticated = require('./lib/middleware/authenticated');
 const messages = require('./routes/messages');
-const daily = require('./routes/daily');
 const articles = require('./routes/articles');
 
 
@@ -22,14 +21,15 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.use(authenticated);
+
 // app.use(expressCspHeader({
 //     directives: {
 //         'default-src': [NONE],
 //         'img-src': [SELF],
 //     }
 // }));
+
 app.use('/messages', messages);
-app.use('/daily', daily);
 app.use('/articles', articles);
 
 app.get('/', (req, res) => {

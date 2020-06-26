@@ -22,6 +22,15 @@ router.get('/', async (req, res, next) => {
     });
 });
 
+//add a new article in database
+//redirect to /articles
+router.post('/', async (req, res, next) => {
+    console.log(req.body);
+    await new Article(req.body).add().then(() => {
+        res.redirect('/articles');
+    }).catch(err =>  next(err));
+});
+
 //handle /articles/:page?
 router.get('/:page?', async (req, res, next) => {
     let page = req.params.page;
@@ -44,6 +53,16 @@ router.get('/display/:id?', async (req, res, next) => {
     }).catch(err => next(err));
 });
 
+//delete one existed article
+router.get('/delete/:id?', async (req, res, next) => {
+    let id = req.params.id;
+    await Article.delete(id).then(() => {
+        res.redirect('/articles');
+    }).catch(err =>  next(err));
+});
+
+
+
 //handle /articles/edit/:id? to modify the exitsted article in database 
 //(need admin permission) 
 router.get('/edit/:id?', async (req, res, next) => {
@@ -54,24 +73,6 @@ router.get('/edit/:id?', async (req, res, next) => {
             admin: res.locals.admin,
         });
     });
-});
-
-//delete one existed article
-
-router.get('/delete/:id?', async (req, res, next) => {
-    let id = req.params.id;
-    await Article.delete(id).then(() => {
-        res.redirect('/articles');
-    }).catch(err =>  next(err));
-});
-
-//add a new article in database
-//redirect to /articles
-router.post('/', async (req, res, next) => {
-    console.log(req.body);
-    await new Article(req.body).add().then(() => {
-        res.redirect('/articles');
-    }).catch(err =>  next(err));
 });
 
 //update the edited article in database

@@ -24,6 +24,13 @@ router.get('/', async (req, res, next) => {
     // res.sendFile(path.join(__dirname, '../public', '/pages/messages.html'));
 });
 
+router.post('/', async (req, res,next) => {
+    console.log(req.body);
+    new Comment(req.body).add().then(() => {
+        res.redirect('/messages');
+    }).catch(err => next(err));
+});
+
 router.get('/:page?', async (req, res, next) => {
     let page = req.params.page;
     console.log(page);
@@ -52,11 +59,5 @@ router.get('/reply/:user?', async (req, res, next) => {
     }).catch(err => next(err));
 });
 
-router.post('/', async (req, res,next) => {
-    console.log(req.body);
-    new Comment(req.body).add().then(() => {
-        res.redirect('/messages');
-    }).catch(err => next(err));
-});
 
 module.exports = router;

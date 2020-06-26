@@ -1,0 +1,9 @@
+{
+    "development": {
+        "dbConfig": {
+            "host": "localhost",
+            "port": 3366,
+            "dbName": "simonwang"
+        }
+    }
+}
