@@ -1,21 +1,4 @@
 
-function messages (row, config) {
-    let $div_row = $('<div/>').addClass(config.eventClass).appendTo($('#contents'));
-    $('<div/>').addClass(config.dateClass).text(row.date).appendTo($div_row);
-    $('<div/>').addClass(config.bodyClass).html(row.body).appendTo($div_row);
-    $('<div/>').addClass(config.rowClass).text(row.user).appendTo($div_row);
-    return $div_row;
-};
-
-function articles(row, config) {
-    let $div_row = $('<div/>').addClass(config.eventClass).appendTo($('#contents'));
-    $('<a/>').addClass(config.rowClass)
-                .attr('href', config.action + '/display/' + row.id)
-                .text(row.title).appendTo($div_row);
-    return $div_row;
-};
-
-
 function display(rows, config, admin, customization) {
     rows.forEach(row => {
         let $div_row = customization(row, config);
@@ -83,21 +66,3 @@ function ajaxPost(url, data, callback) {
     });
 };
 
-
-//set admin interface
-$(document).on('click', '#admin a', function(e) {
-    e.preventDefault();
-    let admin = prompt('enter ADMIN key:');
-    $.ajax({
-        type: 'GET',
-        url: '/auth',
-        data: {admin: admin},
-        dataType: 'json',
-        success: function(response) {
-            let identity = (response.identity)? 'admin':'passenger';
-            let $identity = $('.identity');
-            $identity.text('You are ' + identity);
-            if (identity == 'admin') $('#admin a').hide();
-        }
-    });
-});

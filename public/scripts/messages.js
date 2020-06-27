@@ -1,42 +1,4 @@
 
-const messageConfig = {
-    eventClass: 'feedback',
-    rowClass: 'user',
-    bodyClass: 'body',
-    dateClass: 'date',
-    action: '/messages',
-    deleteClass: 'delete-message',
-    editorClass: 'ql-email',
-    submitClass: 'submit-message',
-    contentClass: 'ql-message',
-    inputId: 'passenger',
-    pageId: 'page-list-messages',
-}
-
-let loadMessages = function(res) {
-    $('#container').html(res.html);
-    display(res.rows, messageConfig, res.admin, messages);
-    pagination(res.number, res.page, messageConfig);
-    editor(messageConfig, res.admin);
-    if (res.admin) $('#' + messageConfig.inputId).val('admin');
-}
-
-let pageMessages = function(res) {
-    $('#contents').empty();
-    display(res.rows, messageConfig, res.admin, messages);
-    
-    if (res.number && $('#pagination').find('a').length != res.number) {
-        pagination(res.number, res.page, messageConfig);
-    }
-
-    if (!res.rows.length) {
-        $('#pagination').remove();
-    }
-
-    if (res.admin) $('#' + messageConfig.inputId).val('admin');
-}
-
-
 $(function() {
     $('#link-messages a').click(function(e) {
         e.preventDefault();
