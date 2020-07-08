@@ -1,0 +1,48 @@
+.position-info {
+	height: 50px;
+	border: 1px solid black;
+}
+
+.selected {
+	background-color: grey;
+}
+
+.position-nav {
+	float: right;
+}
+
+#article-list {
+	border: 1px solid black;
+	float: left;
+	width: 75%;
+	height: 240px;
+}
+
+#article-category-nav {
+	border: 1px solid black;
+	width: 20%;
+	height: 240px;
+	float: right;
+}
+
+.article-info {
+	border: 1px solid black;
+	display: inline;
+}
+
+.articles-summary {
+	border: 1px solid yellow;
+}
+
+.article-admin {
+	border: 1px dashed blue;
+}
+
+.article-info {
+	margin: 0 auto;
+	float: left;
+}
+
+#article-category-nav ul li {
+	margin: 0 auto;
+}

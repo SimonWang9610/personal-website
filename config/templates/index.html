@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="icon" href="data:;base64,=">
+        <link rel='stylesheet' href='/tcp/css/index.css'>
+        <link rel='stylesheet' href='/tcp/css/article-list.css'>
+        <link rel='stylesheet' href='/tcp/css/article-display.css'>
+        <link rel='stylesheet' href='/tcp/css/article-edit.css'>
+        <link rel='stylesheet' href='/tcp/css/comments.css'>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+        
+        <title>{{=it.Title}}</title>
+    </head>
+    <body>
+        
+        <header>
+        <nav class='navbar'>{{=it.Navbar}}</nav> 
+       <!--  <div id='banner'>{{=it.Banner}}</div> -->
+        </header>
+
+               
+        <div id='workspace'></div>
+
+        <footer class='page-footer'>
+            <div>{{=it.Footer}}</div>    
+        </footer>
+        
+        <script src='/js/jquery-3.5.1.js'></script>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        
+
+        <script src='/tcp/js/Storage.js'></script>
+        <script src='/tcp/js/AjaxService.js'></script>
+        <script src='/tcp/js/SimonService.js'></script>
+        <script src='/tcp/js/scope.js'></script>
+        <script src='/tcp/js/quill.js'></script>
+        <script src='/tcp/js/utils.js'></script>
+        <script src='/tcp/js/shell.js'></script>
+        <script src='/tcp/js/admin.js'></script>
+        <script src='/tcp/js/home.js'></script>
+        <script src='/tcp/js/articles.js'></script>
+        <script src='/tcp/js/article-edit.js'></script>
+        <script src='/tcp/js/article-display.js'></script>
+        <script src='/tcp/js/comment.js'></script>
+<!--         <script src='/tcp/js/likes.js'></script> -->
+
+        <script>
+            $(document).ready(function() {
+                setupShell('home');
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<div id='container'>
+	<div id='edit-article'>
+		<div class='position-info'>
+			<div class='position-nav'></div>
+		</div>
+
+		<div id='article-main'>
+			<form id='basic-form'>
+				
+				<div>
+					<label for='subject'>Subject: </label>
+					<input id='subject' type='text' name='subject'>
+				</div>
+				
+				<div id='editor'></div>
+				
+				<div id='article-properties'>
+					<div id='category'>
+						<input id='daily' type='radio' name='category' value='Daily'>
+						<label for='daily'>Daily</label><br>
+						<input id='note' type='radio' name='category' value='Note'>
+						<label for='note'>Note</label><br>
+					</div>
+					<div id='setPrivated'>
+						<input id='public' type='radio' name='setPrivated' value='Public'>
+						<label for='public'>Public</label><br>
+						<input id='private' type='radio' name='setPrivated' value='Private'>
+						<label for='private'>Private</label><br>	
+					</div>
+
+					<div id='submit-form'>
+						<button type='button' onclick='saveArticle()'>Save</button>
+						<button type='button' onclick='cancelEdit()'>Cancel</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,22 @@
+/*.navbar {
+	height: 50px;
+	border: 1px solid black;
+}*/
+
+#workspace {
+	border: 1px solid red;
+}
+
+#admin-identity {
+	float: right;
+}
+
+#index-footer {
+	clear: both;
+	float: left;
+}
+
+a {
+	background-color: yellow;
+	padding: 2px 4px;
+}
