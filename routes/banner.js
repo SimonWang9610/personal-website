@@ -19,7 +19,7 @@ function streamFile(filePath, res) {
 		if (exists) {
 			console.log(exists);
 			let contentType = 'image/png';
-			res.writeHead(200, {'Content-Type': contentType});
+			res.writeHead(200, { 'Content-Type': contentType });
 			fs.createReadStream(filePath).pipe(res);
 		}
 	});

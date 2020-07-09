@@ -1,53 +1,71 @@
-
-
 function prepareArticlesView() {
-	createAdminEnity();
+	createAdminEntity();
 	displayAllArticles();
 }
 
-	// $('.articles-tabs').click(function() {
-	// 	$('.selected').removeClass('.selected');
-	// 	$(this).addClass('selected');
-	// });
+// $('.articles-tabs').click(function() {
+// 	$('.selected').removeClass('.selected');
+// 	$(this).addClass('selected');
+// });
 
 function displayAllArticles() {
-	$('.position-info').empty();
+	let $positionInfo = $('.position-info');
+	$positionInfo.empty();
 
-	$('<span/>').text('Current Position >>> Articles list ').appendTo($('.position-info'));
+	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
+	// $('<span/>').html(' >>> ').appendTo($positionInfo);
+	$('<span/>').addClass('translate').attr('data-args', 'ArticlesList').appendTo($positionInfo);
+	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
 
-	if (isAdmin()) {		
-		$('<a/>').attr({
-			"href": "javascript:render('edit');" 
-		}).html(' | New Article').appendTo($('.position-info'));
+	if (isAdmin()) {
+		$('<a/>')
+			.addClass('translate')
+			.attr({
+				href: "javascript:render('edit');",
+				'data-args': 'NewArticle'
+			})
+			.appendTo($positionNav);
 	}
-	
+
 	SimonService.getArticles(null, function(err, articles) {
 		if (articles.length) {
 			showArticles(articles);
 		} else {
-			$('#article-list').html('No articles!')
+			$('<span/>').addClass('translate').attr('data-args', 'NoArticles').appendTo($('#article-list'));
 		}
+		console.log('Setting language!');
+		setLocaleTo(LangID);
 	});
 }
 
 function displayArticlesByCategory(type) {
-	$('.position-info').empty();
+	let $positionInfo = $('.position-info');
+	$positionInfo.empty();
 
-	$('<span/>').text('| Current Position >>> ' + type + ' list | ').appendTo($('.position-info'));
+	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
+	// $('<span/>').html(' >>> ').appendTo($positionInfo);
+	$('<span/>').addClass('translate').attr('data-args', type + 'List').appendTo($positionInfo);
+	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
 
-	if (isAdmin()) {		
-		$('<a/>').attr({
-			"href": "javascript:render('edit');" 
-		}).html('New Article').appendTo($('.position-info'));
+	if (isAdmin()) {
+		$('<a/>')
+			.addClass('translate')
+			.attr({
+				href: "javascript:render('edit');",
+				'data-args': 'NewArticle'
+			})
+			.appendTo($positionNav);
 	}
 
 	SimonService.getArticles(type, function(err, articles) {
 		if (articles.length) {
-			// $('#postion-info').text('Category >> ' + type);
+			// $('#position-info').text('Category >> ' + type);
 			showArticles(articles);
 		} else {
-			$('#article-list').html('No ' + type + ' articles!');
+			$('#article-list').empty();
+			$('<p/>').addClass('translate').attr('data-args', 'No' + type + 'Articles').appendTo($('#article-list'));
 		}
+		setLocaleTo(LangID);
 	});
 }
 
@@ -56,29 +74,44 @@ function showArticles(articles) {
 	let $articleList = $('#article-list');
 	$articleList.empty();
 
-	articles.forEach(article => {
-		
+	articles.forEach((article) => {
 		let $articleInfo = $('<div/>').addClass('article-info').appendTo($articleList);
-		$('<a/>').attr({
-			'href': 'javascript:void(0)',
-			'onclick': 'redirectToSingleArticle(\'display\', \'' + article.Guid + '\')'
-		}).html(article.Subject).appendTo($articleInfo);
+		$('<a/>')
+			.attr({
+				href: 'javascript:void(0)',
+				onclick: "redirectToSingleArticle('display', '" + article.Guid + "')"
+			})
+			.html(article.Subject)
+			.appendTo($articleInfo);
 
 		let $articleSummary = $('<div/>').addClass('articles-summary').appendTo($articleInfo);
-		let private = article.IsPrivated ? 'Private': 'Public';
-		let count = article.CommentsCount ? article.CommentsCount: 0;
-		$('<span/>').html('Createed at ' + localDate(article.CreationDate) 
-						+ ' | (' + count + '/' + article.ViewsCount +') | '
-						+ private).appendTo($articleSummary);
+		let private = article.IsPrivated ? 'Private' : 'Public';
+		let count = article.CommentsCount ? article.CommentsCount : 0;
+
+		$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($articleSummary);
+		$('<span/>').html(localDate(article.CreationDate)).appendTo($articleSummary);
+
+		$('<span/>').html(' | (' + count + '/' + article.ViewsCount + ') | ').appendTo($articleSummary);
+
+		$('<span/>').addClass('translate').attr('data-args', private).appendTo($articleSummary);
 
 		if (isAdmin()) {
-			$('<a/>').attr({
-				'href': 'javascript: void(0)',
-				'onclick': 'deleteArticle(\'' + article.Guid + '\')'
-			}).html('| Delete |').appendTo($articleInfo);
-			$('<a/>').attr({
-				'href': 'javascript: render(\'edit\', \'' + article.Guid + '\');'
-			}).html('| Edit |').appendTo($articleInfo);
+			$('<a/>')
+				.addClass('translate')
+				.attr({
+					href: 'javascript: void(0)',
+					onclick: "deleteArticle('" + article.Guid + "')",
+					'data-args': 'Delete'
+				})
+				.appendTo($articleInfo);
+
+			$('<a/>')
+				.addClass('translate')
+				.attr({
+					href: "javascript: render('edit', '" + article.Guid + "');",
+					'data-args': 'Edit'
+				})
+				.appendTo($articleInfo);
 		}
 	});
 }
@@ -86,4 +119,3 @@ function showArticles(articles) {
 function redirectToSingleArticle(type, Guid) {
 	render(type, Guid);
 }
-

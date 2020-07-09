@@ -1,9 +1,9 @@
-
 function prepareHomeView() {
-	createAdminEnity();
+	createAdminEntity();
 	SimonService.getArticles('latest', function(err, article) {
 		if (article) {
 			showLatestUpdate(article);
+			setLocaleTo(LangID);
 		} else {
 			$('#latest-update').html('Author has no articles!');
 		}
@@ -11,11 +11,19 @@ function prepareHomeView() {
 }
 
 function showLatestUpdate(article) {
-	$('#update-time p').text(localDate(article.CreationDate));
-	
-	$('#update-subject').append($('<a/>').attr({
-		'href': 'javascript: render(\'display\', \'' + article.Guid + '\');'
-	}).html(article.Subject));
+	let $updateTime = $('#update-time');
+	$('<span/>').addClass('translate').attr('data-args', 'UpdateAt').appendTo($updateTime);
+	$('<span/>').text(localDate(article.CreationDate)).appendTo($updateTime);
+	// $('#update-time p').text(localDate(article.CreationDate));
 
-	$('#update-content').html(article.content);
+	$('#update-subject').append($('<span/>').addClass('translate').attr('data-args', 'Title'));
+	$('#update-subject').append(
+		$('<a/>')
+			.attr({
+				href: "javascript: render('display', '" + article.Guid + "');"
+			})
+			.html(article.Subject)
+	);
+
+	$('#update-content').html(article.Content);
 }

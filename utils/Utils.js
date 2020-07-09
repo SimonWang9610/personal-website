@@ -4,16 +4,18 @@ const path = require('path');
 const { uuid } = require('uuidv4');
 const Files = require('../utils/Files');
 
-var utils =  {
-
+var utils = {
 	createBanner: function() {
 		let html = [];
 		let src = '/api/v1/banner';
-		let style = 'background-image: url(\'' + src + '\'); background-repeat: no-repeat; background-size: cover; background-position: center center;';
+		let style =
+			"background-image: url('" +
+			src +
+			"'); background-repeat: no-repeat; background-size: cover; background-position: center center;";
 
 		html.push('<div>');
-			html.push('<div id="bannerBg" style="' + style + '">');
-			html.push('</div>');
+		html.push('<div id="bannerBg" style="' + style + '">');
+		html.push('</div>');
 		html.push('</div>');
 		return html.join('');
 	},
@@ -46,7 +48,7 @@ var utils =  {
 	},
 
 	createSaltKey: function(length) {
-		return crypto.randomBytes(Math.ceil(length/2)).toString('hex').slice(0, length);
+		return crypto.randomBytes(Math.ceil(length / 2)).toString('hex').slice(0, length);
 	},
 
 	createHashPassword: function(password, saltKey, algorithm) {
@@ -66,6 +68,6 @@ var utils =  {
 			return 'en';
 		}
 	}
-}
+};
 
 module.exports = utils;

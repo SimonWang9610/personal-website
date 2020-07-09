@@ -18,6 +18,7 @@
     "express": "^4.17.1",
     "express-csp-header": "^4.0.0",
     "express-session": "^1.17.1",
+    "i18n": "^0.10.0",
     "jsonwebtoken": "^8.5.1",
     "loadsh": "0.0.4",
     "method-override": "^3.0.0",

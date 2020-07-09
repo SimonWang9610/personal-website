@@ -1,44 +1,46 @@
 {
-    "http": {
-    	"port": 8008
-    },
-    "mysqlOptions": {
-    	"database": "simonwangdb",
-    	"dateString": true,
-    	"connectionLimit": 5,
-    	"host": "localhost",
-    	"user": "simonwang",
-    	"password": "961002"
-    },
-    "admin": {
-        "key": "961002"
-    },
-    "jwt": {
-    	"secret": "dengpan#123",
-    	"expiresInMinutes": 10080, // a week 7*24*60
-    	"audience": "simonwang",
-    	"issuer": "http://simonwang.ca"
-    },
-    "logging": {
-    	"name": "local-dev",
-    	"streams": [{
-    		"type": "rotating-file",
-    		"level": "info",
-    		"path": "./logs/simonwang.log",
-    		"period": "id",
-    		"count": 30
-    	}]
-    },
-    "password": {
-    	"saltKeyLength": 5,
-    	"hashAlgorithm": "sha512"
-    },
-    "storage": {
-    	"default": "vault",
-    	"valut": {
-    		"root": "/opt/genesis/vault",
-    		"video": "/vault",
-    		"image": "/vault"
-    	}
-    }
+	"http": {
+		"port": 8008
+	},
+	"mysqlOptions": {
+		"database": "simonwangdb",
+		"dateString": true,
+		"connectionLimit": 5,
+		"host": "localhost",
+		"user": "simonwang",
+		"password": "961002"
+	},
+	"admin": {
+		"key": "961002"
+	},
+	"jwt": {
+		"secret": "dengpan#123",
+		"expiresInMinutes": 10080,
+		"audience": "simonwang",
+		"issuer": "http://simonwang.ca"
+	},
+	"logging": {
+		"name": "local-dev",
+		"streams": [
+			{
+				"type": "rotating-file",
+				"level": "info",
+				"path": "./logs/simonwang.log",
+				"period": "id",
+				"count": 30
+			}
+		]
+	},
+	"password": {
+		"saltKeyLength": 5,
+		"hashAlgorithm": "sha512"
+	},
+	"storage": {
+		"default": "vault",
+		"valut": {
+			"root": "/opt/genesis/vault",
+			"video": "/vault",
+			"image": "/vault"
+		}
+	}
 }

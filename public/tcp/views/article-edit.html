@@ -1,14 +1,14 @@
 <div id='container'>
 	<div id='edit-article'>
 		<div class='position-info'>
-			<div class='position-nav'></div>
+			<!-- <div class='position-nav'></div> -->
 		</div>
 
 		<div id='article-main'>
 			<form id='basic-form'>
 				
 				<div>
-					<label for='subject'>Subject: </label>
+					<label for='subject' class='translate' data-args='Subject'></label>
 					<input id='subject' type='text' name='subject'>
 				</div>
 				
@@ -17,20 +17,20 @@
 				<div id='article-properties'>
 					<div id='category'>
 						<input id='daily' type='radio' name='category' value='Daily'>
-						<label for='daily'>Daily</label><br>
+						<label for='daily' class='translate' data-args='Daily'></label><br>
 						<input id='note' type='radio' name='category' value='Note'>
-						<label for='note'>Note</label><br>
+						<label for='note' class='translate' data-args='Note'></label><br>
 					</div>
 					<div id='setPrivated'>
 						<input id='public' type='radio' name='setPrivated' value='Public'>
-						<label for='public'>Public</label><br>
+						<label for='public' class='translate' data-args='Public'></label><br>
 						<input id='private' type='radio' name='setPrivated' value='Private'>
-						<label for='private'>Private</label><br>	
+						<label for='private' class='translate' data-args='Private'></label><br>	
 					</div>
 
 					<div id='submit-form'>
-						<button type='button' onclick='saveArticle()'>Save</button>
-						<button type='button' onclick='cancelEdit()'>Cancel</button>
+						<button class='translate' data-args='Save' type='button' onclick='saveArticle()'></button>
+						<button class='translate' data-args='Cancel' type='button' onclick='cancelEdit()'></button>
 					</div>
 				</div>
 			</form>

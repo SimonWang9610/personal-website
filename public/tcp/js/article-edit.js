@@ -8,46 +8,60 @@ var setPrivated = 0;
 var category = 'Daily';
 
 function prepareEditView(id) {
-	createAdminEnity();
-	$('<span/>').html('Current Position >>> Edit article')
-	$('<a/>').attr({
-			"href": "javascript: myArticle=null; render('articles')" 
-		}).html('> Back to Articles list').appendTo($('.position-nav'));
+	createAdminEntity();
+
+	let $positionInfo = $('.position-info');
+	$positionInfo.empty();
+
+	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
+	// $('<span/>').html(' >>> ').appendTo($positionInfo);
+	$('<span/>').addClass('translate').attr('data-args', 'EditArticle').appendTo($positionInfo);
+	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
+
+	$('<a/>')
+		.addClass('translate')
+		.attr({
+			href: "javascript: myArticle=null; render('articles')",
+			'data-args': 'BackToArticlesList'
+		})
+		.appendTo($positionNav);
 
 	if (id) {
 		SimonService.getSingleArticle(id, function(err, article) {
-
 			category = article.Category;
-			setPrivated = (article.IsPrivated) ? 'Private': 'Public';
+			setPrivated = article.IsPrivated ? 'Private' : 'Public';
 
-			$('input[vale=\'category\']').attr('checked', 'true');
-			$('input[vale=\'setPrivated\']').attr('checked', 'true');
+			$("input[vale='category']").attr('checked', 'true');
+			$("input[vale='setPrivated']").attr('checked', 'true');
 
 			myArticle = article;
 			showEditor(article);
+			console.log('Setting language!');
+			setLocaleTo(LangID);
 		});
 	} else {
 		showEditor();
+		console.log('Setting language!');
+		setLocaleTo(LangID);
 	}
 }
-
 
 function showEditor(article) {
 	if (article) {
 		$('#subject').val(article.Subject);
 		isPrivated = article.isPrivated;
 		$('#editor').html(article.Content);
+		$('<button/>')
+			.addClass('translate')
+			.attr({
+				type: 'button',
+				onclick: "deleteArticle('" + article.Guid + "')",
+				'data-args': 'Delete'
+			})
+			.appendTo($('#submit-form'));
 	}
 
 	initQuill(); // quill.js
-
-	$('<button/>').attr({
-		'type': 'button',
-		'onclick': 'deleteArticle(\'' + article.Guid +'\')'
-	}).html('Delete').appendTo($('#submit-form'));
-
-
-	// setLocaleTo(LangID);
 }
 
 function saveArticle() {
@@ -56,9 +70,9 @@ function saveArticle() {
 	let subject = $('#subject').val().trim();
 	let content = myEditor.root.innerHTML;
 	// articlePropertySetting();
-	
+
 	let payload = null;
-	
+
 	if (myArticle) {
 		payload = {
 			Guid: myArticle.Guid,
@@ -66,14 +80,14 @@ function saveArticle() {
 			Content: content,
 			IsPrivated: setPrivated,
 			Category: category
-		}
+		};
 	} else {
 		payload = {
 			Subject: subject,
 			Content: content,
 			IsPrivated: setPrivated,
 			Category: category
-		}
+		};
 	}
 	console.log(payload);
 	SimonService.edit(payload, function(err, data) {
@@ -118,5 +132,4 @@ function articlePropertySetting() {
 	setPrivated = $("input[name='setPrivated']:checked").val();
 
 	// setPrivated = (setPrivated === 'Private') ? 1: 0;
-
 }

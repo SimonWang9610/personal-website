@@ -1,4 +1,3 @@
-
 /*
 {myArticleGuid} defined at article-display.js
 */
@@ -12,17 +11,23 @@ function showComments(articleGuid) {
 			// showInfoDialog(err.message);
 		} else {
 			if (comments.length) {
-				comments.forEach(comment => {
+				let floor = LangID === 'en' ? ' F' : ' 楼';
+				comments.forEach((comment) => {
 					let $div = $('<div/>').addClass('single-comment').appendTo($comments);
-					$('<div/>').addClass('comment-info').append($('<span/>').html(comment.ID + 'F | '))
-														.append($('<span/>').html('Created at ' + localDate(comment.CreationDate)))
-														.appendTo($div);
+					$('<div/>').addClass('comment-info').append($('<span/>').html(comment.ID + floor)).appendTo($div);
+
+					$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($div);
+					$('<span/>').html(localDate(comment.CreationDate)).appendTo($div);
+
 					$('<div/>').addClass('comment-content').html(comment.Content).appendTo($div);
 					$('<div/>').addClass('comment-author').html(comment.Author).appendTo($div);
 				});
+				setLocaleTo(LangID);
 			} else {
-				$('<p/>').text('Write the first comment!').appendTo($comments);
+				$('<p/>').addClass('translate').attr('data-args', 'FirstComment').appendTo($comments);
+				// $('<p/>').text('Write the first comment!').appendTo($comments);
 			}
+			setLocaleTo(LangID);
 		}
 	});
 }
@@ -32,11 +37,13 @@ function initCommentForm() {
 		type: 'GET',
 		cache: false,
 		url: '/tcp/views/comments.html'
-	}).done(function(data) {
-		$('#comments').html(data);
-	}).fail(() => {
-		$('#comments').html('Page Not Found');
-	});
+	})
+		.done(function(data) {
+			$('#comments').html(data);
+		})
+		.fail(() => {
+			$('#comments').html('Page Not Found');
+		});
 }
 
 function addComment() {
@@ -52,8 +59,8 @@ function addComment() {
 		Author: author,
 		Content: content,
 		ArticleGuid: myArticle.Guid
-	}
-	
+	};
+
 	clearComment();
 
 	SimonService.addComment(payload, function(err, data) {
@@ -64,7 +71,6 @@ function addComment() {
 		}
 
 		if (data.success) {
-
 			SimonService.getComments(myArticle.Guid, function(err, comments) {
 				showComments(comments);
 			});
