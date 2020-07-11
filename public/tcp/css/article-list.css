@@ -15,19 +15,26 @@
 	border: 1px solid black;
 	float: left;
 	width: 75%;
-	height: 240px;
+	display: flex;
+	flex-flow: column wrap;
 }
 
 #article-category-nav {
 	border: 1px solid black;
 	width: 20%;
-	height: 240px;
 	float: right;
+	display: flex;
+	flex-flow: column wrap;
+}
+
+#article-category-nav div {
+	margin: 0 auto;
 }
 
 .article-info {
 	border: 1px solid black;
-	display: inline;
+	display: flex;
+	flex-flow: row wrap;
 }
 
 .articles-summary {

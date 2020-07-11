@@ -1,7 +1,11 @@
 <div id='blog-nav'>
-	<a class='translate' data-args='Home' href="javascript:render('home')"></a>
-	<a class='translate' data-args='Articles' href="javascript:render('articles')"></a>
+
+	<div id='home-articles-nav'>
+		<a class='translate' data-args='Home' href="javascript:render('home')"></a>
+		<a class='translate' data-args='Articles' href="javascript:render('articles')"></a>
+	</div>
 	
+
 	<div id='admin-identity'>
 		<input id='admin-key' type='password' placeholder='Enter Admin Key:'>
 		<button id='become-admin' class='translate' data-args='BecomeAdmin' type='button' onclick='getAdmin()'></button>

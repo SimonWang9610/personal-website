@@ -14,10 +14,13 @@ function showComments(articleGuid) {
 				let floor = LangID === 'en' ? ' F' : ' 楼';
 				comments.forEach((comment) => {
 					let $div = $('<div/>').addClass('single-comment').appendTo($comments);
-					$('<div/>').addClass('comment-info').append($('<span/>').html(comment.ID + floor)).appendTo($div);
+					let $commentInfo = $('<div/>')
+						.addClass('comment-info')
+						.append($('<span/>').html(comment.ID + floor))
+						.appendTo($div);
 
-					$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($div);
-					$('<span/>').html(localDate(comment.CreationDate)).appendTo($div);
+					$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($commentInfo);
+					$('<span/>').html(localDate(comment.CreationDate)).appendTo($commentInfo);
 
 					$('<div/>').addClass('comment-content').html(comment.Content).appendTo($div);
 					$('<div/>').addClass('comment-author').html(comment.Author).appendTo($div);

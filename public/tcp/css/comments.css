@@ -1,7 +1,19 @@
 #comments {
 	border: 1px dashed red;
+	display: flex;
+	flex-flow: column wrap;
 }
 
 .single-comment {
 	border: 1px solid red;
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.comment-content {
+	margin: 0 auto;
+}
+
+.comment-author {
+	float: right;
 }

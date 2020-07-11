@@ -7,10 +7,22 @@
     <div id='article-list'></div>
 
     <div id='article-category-nav'>
-    	<ul>
-    		<li><a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a></li>
-    		<li><a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a></li>
-    		<li><a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a></li>
-    	</ul>  
+    	<!-- <ul> -->
+    		<!-- <li><a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a></li> -->
+    		<!-- <li><a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a></li> -->
+    		<!-- <li><a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a></li> -->
+		<!-- </ul> -->
+		
+		<div id='display-all-articles'>
+			<a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a>
+		</div>
+		
+		<div id='display-note-articles'>
+			<a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a>
+		</div>
+
+		<div id='display-daily-article'>
+			<a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a>
+		</div>
     </div>
 </div>

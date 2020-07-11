@@ -1,0 +1,21 @@
+#latest-update {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+#update-time {
+	margin: 0 auto;
+}
+
+#update-subject {
+	margin: 0 auto;
+}
+
+#update-content {
+	margin: 0 auto;
+}
+
+#index-footer div {
+	border: 1px solid black;
+	margin: 0 auto;
+}
