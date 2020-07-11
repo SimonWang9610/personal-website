@@ -14,16 +14,13 @@ function showComments(articleGuid) {
 				let floor = LangID === 'en' ? ' F' : ' 楼';
 				comments.forEach((comment) => {
 					let $div = $('<div/>').addClass('single-comment').appendTo($comments);
-					let $commentInfo = $('<div/>')
-						.addClass('comment-info')
-						.append($('<span/>').html(comment.ID + floor))
-						.appendTo($div);
+					let $commentInfo = $('<div/>').addClass('comment-info').appendTo($div);
+					$('<span/>').addClass('comment-author').html(comment.Author + ' ').appendTo($commentInfo);
 
 					$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($commentInfo);
 					$('<span/>').html(localDate(comment.CreationDate)).appendTo($commentInfo);
 
 					$('<div/>').addClass('comment-content').html(comment.Content).appendTo($div);
-					$('<div/>').addClass('comment-author').html(comment.Author).appendTo($div);
 				});
 				setLocaleTo(LangID);
 			} else {
@@ -50,8 +47,9 @@ function initCommentForm() {
 }
 
 function addComment() {
-	let author = $('#comment-author').val();
-	let content = $('#comment-content').val();
+	let author = $('#form-comment-author').val();
+	let content = $('#form-comment-content').val();
+	console.log(author);
 
 	if (!author) {
 		alert('Email can not be empty!');
@@ -75,15 +73,16 @@ function addComment() {
 
 		if (data.success) {
 			SimonService.getComments(myArticle.Guid, function(err, comments) {
-				showComments(comments);
+				// showComments(comments);
+				render('display', myArticle.Guid);
 			});
 		}
 	});
 }
 
 function clearComment() {
-	$('#comment-author').val('');
-	$('#comment-content').val('');
+	$('#form-comment-author').val('');
+	$('#form-comment-content').val('');
 }
 
 function deleteComment(id) {
