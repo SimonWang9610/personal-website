@@ -1,19 +1,19 @@
-
 #display-article {
 	border: 1px solid black;
+	display: flex;
+	flex-flow: column wrap;
 }
 
 #article-subject {
 	border: 1px dashed red;
+	margin: 0 auto;
 }
 
 #article-content {
 	border: 1px dashed blue;
+	margin: 0 auto;
 }
 
 #article-footer {
 	border: 1px solid black;
 }
-
-
-

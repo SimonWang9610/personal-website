@@ -43,7 +43,9 @@ function prepareDisplayView(id) {
 }
 
 function showSingleArticle(article) {
-	$('#article-subject').html(article.Subject);
+	let $articleSubject = $('#article-subject');
+	$('<span/>').addClass('translate').attr('data-args', 'Subject').appendTo($articleSubject);
+	$('<span/>').html(article.Subject).appendTo($articleSubject);
 
 	if (!article.IsPrivated) {
 		let $summary = $('#one-article-summary');
