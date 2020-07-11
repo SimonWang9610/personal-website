@@ -18,10 +18,11 @@ function displayAllArticles() {
 	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
 
 	if (isAdmin()) {
-		$('<a/>')
+		$('<button/>')
 			.addClass('translate')
 			.attr({
-				href: "javascript:render('edit');",
+				type: 'button',
+				onclick: "render('edit')",
 				'data-args': 'NewArticle'
 			})
 			.appendTo($positionNav);
@@ -48,10 +49,11 @@ function displayArticlesByCategory(type) {
 	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
 
 	if (isAdmin()) {
-		$('<a/>')
+		$('<button/>')
 			.addClass('translate')
 			.attr({
-				href: "javascript:render('edit');",
+				type: 'button',
+				onclick: "render('edit')",
 				'data-args': 'NewArticle'
 			})
 			.appendTo($positionNav);
@@ -76,15 +78,17 @@ function showArticles(articles) {
 
 	articles.forEach((article) => {
 		let $articleInfo = $('<div/>').addClass('article-info').appendTo($articleList);
+		let $articleSubject = $('<div/>').addClass('each-article-subject').appendTo($articleInfo);
+
 		$('<a/>')
 			.attr({
 				href: 'javascript:void(0)',
 				onclick: "redirectToSingleArticle('display', '" + article.Guid + "')"
 			})
 			.html(article.Subject)
-			.appendTo($articleInfo);
+			.appendTo($articleSubject);
 
-		let $articleSummary = $('<div/>').addClass('articles-summary').appendTo($articleInfo);
+		let $articleSummary = $('<div/>').addClass('each-article-summary').appendTo($articleInfo);
 		let private = article.IsPrivated ? 'Private' : 'Public';
 		let count = article.CommentsCount ? article.CommentsCount : 0;
 
@@ -96,22 +100,23 @@ function showArticles(articles) {
 		$('<span/>').addClass('translate').attr('data-args', private).appendTo($articleSummary);
 
 		if (isAdmin()) {
-			$('<a/>')
+			let $articleEdit = $('<div/>').attr('id', 'each-article-edit').appendTo($articleInfo);
+
+			$('<button/>')
 				.addClass('translate')
 				.attr({
-					href: 'javascript: void(0)',
 					onclick: "deleteArticle('" + article.Guid + "')",
 					'data-args': 'Delete'
 				})
-				.appendTo($articleInfo);
+				.appendTo($articleEdit);
 
-			$('<a/>')
+			$('<button/>')
 				.addClass('translate')
 				.attr({
-					href: "javascript: render('edit', '" + article.Guid + "');",
+					onclick: "render('edit', '" + article.Guid + "')",
 					'data-args': 'Edit'
 				})
-				.appendTo($articleInfo);
+				.appendTo($articleEdit);
 		}
 	});
 }

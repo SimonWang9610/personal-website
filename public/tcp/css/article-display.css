@@ -9,6 +9,10 @@
 	margin: 0 auto;
 }
 
+#article-subject span {
+	font-size: 20px;
+}
+
 #article-content {
 	border: 1px dashed blue;
 	margin: 0 auto;
@@ -16,4 +20,9 @@
 
 #article-footer {
 	border: 1px solid black;
+}
+
+#one-article-summary span {
+	font: 12px;
+	color: grey;
 }

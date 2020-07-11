@@ -18,7 +18,7 @@ function prepareDisplayView(id) {
 	if (id) {
 		SimonService.getSingleArticle(id, function(err, article) {
 			if (article) {
-				$('<span/>').addClass('translate').attr('data-args', article.Category).appendTo($positionInfo);
+				$('<span/>').addClass('translate').attr('data-args', article.Category).insertBefore($positionNav);
 				myArticle = article;
 				showSingleArticle(article);
 				// setLocaleTo(LangID);
