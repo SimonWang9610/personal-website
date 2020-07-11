@@ -7,14 +7,7 @@
 	width: 100%;
 	display: flex;
 	flex-flow: row nowrap;
-}
-
-#home-articles-nav {
-	flex: 1 1 0;
-}
-
-#admin-identity {
-	flex: 1 1 1;
+	justify-content: space-between;
 }
 
 #workspace {
@@ -22,9 +15,13 @@
 }
 
 #index-footer {
-	clear: both;
 	display: flex;
 	flex-flow: row wrap;
+}
+
+#index-footer div {
+	border: 1px dotted red;
+	margin: 10px auto;
 }
 
 a {

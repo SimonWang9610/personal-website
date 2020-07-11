@@ -51,12 +51,12 @@ function showSingleArticle(article) {
 		let $summary = $('#one-article-summary');
 
 		$('<span/>').addClass('translate').attr('data-args', 'CreationDate').appendTo($summary);
-		$('<span/>').html(': ' + localDate(article.CreationDate) + ' | ').appendTo($summary);
+		$('<span/>').html(localDate(article.CreationDate) + ' | ').appendTo($summary);
 
 		if (article.LastEditDate) {
 			// $('<span/>').html(' | Last Edited: ' + localDate(article.LastEditDate)).appendTo($summary);
 			$('<span/>').addClass('translate').attr('data-args', 'LastEdited').appendTo($summary);
-			$('<span/>').html(': ' + localDate(article.LastEditDate) + ' | ').appendTo($summary);
+			$('<span/>').html(localDate(article.LastEditDate) + ' | ').appendTo($summary);
 		}
 
 		let count = article.CommentsCount ? article.CommentsCount : 0;
@@ -74,6 +74,7 @@ function showSingleArticle(article) {
 function createArticleFooter(articleGuid) {
 	let $footer = $('#article-footer');
 	let count = myArticle.CommentsCount ? myArticle.CommentsCount : 0;
+
 	$('<a/>')
 		.addClass('translate')
 		.attr({

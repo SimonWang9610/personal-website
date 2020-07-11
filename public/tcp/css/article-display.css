@@ -20,6 +20,15 @@
 
 #article-footer {
 	border: 1px solid black;
+	margin: 10px;
+}
+
+#article-footer > * {
+	margin: 3px;
+}
+
+#one-article-summary {
+	margin: 10px;
 }
 
 #one-article-summary span {
