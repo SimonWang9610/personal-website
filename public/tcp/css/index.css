@@ -15,12 +15,12 @@
 }
 
 #index-footer {
+	clear: both;
 	display: flex;
 	flex-flow: row wrap;
 }
 
 #index-footer div {
-	border: 1px dotted red;
 	margin: 10px auto;
 }
 

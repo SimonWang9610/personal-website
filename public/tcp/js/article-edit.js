@@ -28,11 +28,11 @@ function prepareEditView(id) {
 
 	if (id) {
 		SimonService.getSingleArticle(id, function(err, article) {
-			category = article.Category;
-			setPrivated = article.IsPrivated ? 'Private' : 'Public';
+			// category = article.Category;
+			// setPrivated = article.IsPrivated ? 'Private' : 'Public';
 
-			$("input[vale='category']").attr('checked', 'true');
-			$("input[vale='setPrivated']").attr('checked', 'true');
+			// $("input[vale='category']").attr('checked', 'true');
+			// $("input[vale='setPrivated']").attr('checked', 'true');
 
 			myArticle = article;
 			showEditor(article);
@@ -49,7 +49,7 @@ function prepareEditView(id) {
 function showEditor(article) {
 	if (article) {
 		$('#subject').val(article.Subject);
-		isPrivated = article.isPrivated;
+		setPrivated = article.IsPrivated;
 		$('#editor').html(article.Content);
 		$('<button/>')
 			.addClass('translate')
@@ -119,17 +119,17 @@ function cancelEdit() {
 	render('articles');
 }
 
-function articlePropertySetting() {
-	if (!$("input[name='category']:checked").val()) {
-		$("input[name='category']:first").attr('checked', 'true');
-	}
+// function articlePropertySetting() {
+// 	if (!$("input[name='category']:checked").val()) {
+// 		$("input[name='category']:first").attr('checked', 'true');
+// 	}
 
-	if (!$("input[name='setPrivated']:checked").val()) {
-		$("input[name='setPrivated']:first").attr('checked', 'true');
-	}
+// 	if (!$("input[name='setPrivated']:checked").val()) {
+// 		$("input[name='setPrivated']:first").attr('checked', 'true');
+// 	}
 
-	category = $("input[name='category']:checked").val();
-	setPrivated = $("input[name='setPrivated']:checked").val();
+// 	category = $("input[name='category']:checked").val();
+// 	setPrivated = $("input[name='setPrivated']:checked").val();
 
-	// setPrivated = (setPrivated === 'Private') ? 1: 0;
-}
+// 	// setPrivated = (setPrivated === 'Private') ? 1: 0;
+// }
