@@ -1,0 +1,21 @@
+<div class='modal fade top' id='become-admin'>
+    <div class='modal-dialog'>
+        <div class='modal-content'>
+            <div class='modal-header translate' data-args='EnterAdminKey'>Enter Admin Key</div>
+            <div class='modal-body'>
+                <form class='needs-validation' id='admin-form' novalidate>
+                    <div class='form-group'>
+                        <div class='input-group mb-3'>
+                            <input type='password' class='form-control' id='admin-key' placeholder='Enter admin key' required>
+                            <div class='input-group-append'>
+                                <button class='btn btn-success translate' type='button' onclick='getAdmin()' data-args='GetAdminPermission'>Get</button>
+                            </div>
+                        </div>
+                        <div class='valid-feedback translate' data-args='Valid'>Valid.</div>
+                        <div class='invalid-feedback translate' data-args='RequiredField'>Key is empty.</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

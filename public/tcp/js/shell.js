@@ -6,6 +6,13 @@ const uiPage = {
 			prepareArticlesView();
 		}
 	},
+	category: {
+		url: '/tcp/views/article-list.html',
+		mode: 'inline',
+		callback: function(type) {
+			prepareCategoryView(type);
+		}
+	},
 	home: {
 		url: '/tcp/views/home.html',
 		mode: 'inline',

@@ -1,18 +1,89 @@
-<div id='container'>
-	<div id='single-article'>
-		<div class='position-info'>
+<!-- <div id='container'> -->
+	<!-- <div id='single-article'> -->
+		<!-- <div class='position-info'> -->
 			<!-- <div class='position-nav'></div> -->
-		</div>
-
-		<div id='display-article'>
+		<!-- </div> -->
+<!--  -->
+		<!-- <div id='display-article'> -->
 			<!-- <span class='translate' data-args='Subject'></span> -->
-			<div id='article-subject'></div>
-			<div id='one-article-summary'></div>
-			<div id='article-content'></div>
-		</div>
-		
-		<div id='article-footer'></div>
+			<!-- <div id='article-subject'></div> -->
+			<!-- <div id='one-article-summary'></div> -->
+			<!-- <div id='article-content'></div> -->
+		<!-- </div> -->
+		<!--  -->
+		<!-- <div id='article-footer'></div> -->
+<!--  -->
+		<!-- <div id='comments'></div> -->
+	<!-- </div> -->
+<!-- </div> -->
 
-		<div id='comments'></div>
+<div class='row'>
+	<div class='col d-flex bg-info justify-content-start position-info'>
+		<ul class='breadcrumb bg-info text-dark'></ul>
 	</div>
+	<div class='col d-flex bg-info justify-content-end position-nav'>
+		<!-- <a class='translate' href="javascript: myArticle=null; render('articles')" data-args='BackToArticlesList'></a> -->
+	</div>
+</div>
+
+<div class='row'>
+	<div class='col' id='display-article'>
+	  
+	  <div class='row'>
+		<div class='col d-flex justify-content-center' id='article-subject'></div>
+	  </div>
+
+	  <div class='row'>
+		<div class='col d-flex' id='article-summary'></div>
+	  </div>
+
+	  <div class='row justify-content-center'>
+		<div class='col-sm-8 d-flex bg-secondary' id='article-content'></div>
+	  </div>
+	</div>
+</div>
+
+<div class='row'>
+	<form class='needs-validation' id='setting-form' novalidate>
+		<div class='form-group'>
+			<div class='input-group mb-3'>
+				<div class='input-group-prepend'>
+					<span class='input-group-text translate' data-args='Privacy'></span>
+				</div>
+				<select class='form-control' id='privacy' name='privacy'>
+					<option class='translate' data-args='Public'></option>
+					<option class='translate' data-args='Private'></option>
+				</select>
+			</div>
+		</div>
+
+		<div class='form-group'>
+			<div class='input-group mb-3'>
+				<div class='input-group-prepend'>
+					<span class='input-group-text translate' data-args='Category'></span>
+				</div>
+				<select class='form-control' id='category' name='category'>
+					<option class='translate' data-args='Daily'></option>
+					<option class='translate' data-args='Note'></option>
+				</select>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class='row' id='article-footer'>
+	<!-- <div class='col-sm-2 d-flex'> -->
+	  <!-- <a class='translate' id='show-comments' href='javascript:void(0)' onclick='showComments()' data-args='Comment'></a> -->
+	<!-- </div> -->
+	<!-- <div class='col d-flex dropdown' id='article-setting'> -->
+	  <!-- <button class='btn btn-primary btn-sm dropdown-toggle translate' data-toggle='dropdown' data-args='Setting'></button> -->
+	  <!-- <div class='dropdown-menu'> -->
+		<!-- <a class='dropdown-item translate' href='javascript:void(0)' onclick='editArticle()' data-args='Edit'></a> -->
+		<!-- <a class='dropdown-item translate' href='javascript:void(0)' onclick='deleteArticle()' data-args='Delete'></a> -->
+	  <!-- </div> -->
+	<!-- </div> -->
+</div>
+
+<div id='comments'>
+
 </div>

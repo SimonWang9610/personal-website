@@ -1,28 +1,54 @@
 <div id='articles'>
 
-	<div class='position-info'>
-		<!-- <div class='position-nav'></div> -->
+	<!-- <div class='position-info'></div> -->
+	<div class='row'>
+		<div class='col d-flex bg-info justify-content-start position-info'>
+			<!-- <span class='current-position translate' data-args='CurrentPosition'></span> -->
+			<ul class='breadcrumb bg-info text-dark'>
+			</ul>
+		</div>
+		<div class='col d-flex bg-info justify-content-end position-nav'></div>
 	</div>
 
-    <div id='article-list'></div>
+	<div class='row'>
+		
+		<div class='col' id='articles-list'></div>
 
-    <div id='article-category-nav'>
+		<div class='col' id='article-category-nav'>
+			<ul class='nav flex-column'>
+				<li class='translate' data-args='ArticlesCategory'></li>
+				<li class='nav-item'>
+				  <a class='nav-link articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'>All Articles</a>
+				</li>
+	
+				<li class='nav-item'>
+					<a class='nav-link articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')">Note</a>
+				</li>
+	
+				<li class='nav-item'>
+					<a class='nav-link articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')">Daily</a>
+				</li>
+			  </ul>
+		</div>
+	</div>
+</div>
+
+
+    
     	<!-- <ul> -->
     		<!-- <li><a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a></li> -->
     		<!-- <li><a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a></li> -->
     		<!-- <li><a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a></li> -->
 		<!-- </ul> -->
 		
-		<div id='display-all-articles'>
-			<a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a>
-		</div>
-		
-		<div id='display-note-articles'>
-			<a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a>
-		</div>
-
-		<div id='display-daily-article'>
-			<a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a>
-		</div>
-    </div>
-</div>
+		<!-- <div id='display-all-articles'> -->
+			<!-- <a class='articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'></a> -->
+		<!-- </div> -->
+		<!--  -->
+		<!-- <div id='display-note-articles'> -->
+			<!-- <a class='articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')"></a> -->
+		<!-- </div> -->
+<!--  -->
+		<!-- <div id='display-daily-article'> -->
+			<!-- <a class='articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')"></a> -->
+		<!-- </div> -->

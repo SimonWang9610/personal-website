@@ -1,5 +1,14 @@
 function getAdmin() {
-	let adminKey = $('#admin-key').val();
+	let basicForm = document.getElementById('admin-form');
+
+	if (basicForm.checkValidity() == false) {
+		basicForm.classList.add('was-validated');
+		return;
+	}
+
+	$('#become-admin').modal('hide');
+
+	let adminKey = $('#admin-key').val().trim();
 
 	if (!adminKey) {
 		alert('No AdminKey Provided!');
@@ -28,11 +37,53 @@ function getAdmin() {
 	});
 }
 
-function becomePassenger() {
+function logout() {
+	$('#confirm-logout').modal('hide');
 	SimonStorage.clear();
 	let hash = window.location.hash.substring(1);
 	hash = hash === 'display' || 'edit' || 'articles' ? 'articles' : 'home';
 	render(hash);
+}
+
+function becomePassenger() {
+	if ($('#confirm-logout').length) {
+		$('#confirm-logout').modal('show');
+	} else {
+		let url = '/tcp/modals/confirm-logout.html';
+		$.ajax({
+			type: 'GET',
+			cache: false,
+			url: url
+		}).done(function(data) {
+			$(data).appendTo('body');
+			setLocaleTo(LangID);
+			$('#confirm-logout').modal('show');
+		});
+	}
+}
+function becomeAdmin() {
+	if ($('#become-admin').length) {
+		$('#become-admin').modal('show');
+	} else {
+		let url = '/tcp/modals/admin.html';
+		$.ajax({
+			type: 'GET',
+			cache: false,
+			url: url
+		})
+			.done(function(data) {
+				$(data).appendTo('body');
+				setLocaleTo(LangID);
+				$('#admin-key').val('');
+				$('#become-admin').modal('show');
+			})
+			.fail(function() {
+				alert('can not load modal');
+			})
+			.always(function() {
+				// do nothing
+			});
+	}
 }
 
 function isAdmin() {
@@ -43,37 +94,39 @@ function createAdminEntity() {
 	let $adminIdentity = $('#admin-identity');
 	$adminIdentity.empty();
 
-	if (!isAdmin()) {
-		$('<input/>')
+	if (isAdmin()) {
+		$('<a/>')
+			.addClass('dropdown-item translate')
 			.attr({
-				id: 'admin-key',
-				type: 'password',
-				placeHolder: 'Enter admin key'
+				href: 'javascript: void(0)',
+				onclick: 'becomePassenger()',
+				'data-args': 'LogOut'
 			})
+			.html('Logout')
 			.appendTo($adminIdentity);
-
-		$('<button/>')
+	} else {
+		$('<a/>')
+			.addClass('dropdown-item translate')
 			.attr({
-				onclick: 'getAdmin()',
-				type: 'button'
+				href: 'javascript: void(0)',
+				onclick: 'becomeAdmin()',
+				'data-args': 'GetPermission'
 			})
 			.html('Become Admin')
 			.appendTo($adminIdentity);
-
-		$('<span/>').html(' | Passenger |').appendTo($adminIdentity);
-	} else {
-		$('<button/>')
-			.addClass('translate')
-			.attr({
-				onclick: 'becomePassenger()',
-				type: 'button',
-				'data-args': 'Logout'
-			})
-			.appendTo($adminIdentity);
-		$('<span/>').addClass('translate').attr('data-args', 'Admin').appendTo($adminIdentity);
 	}
 
-	let $btn = $('<button/>')
+	$('<a/>')
+		.addClass('dropdown-item translate')
+		.attr({
+			href: 'javascript: void(0)',
+			onclick: 'changeLanguage()',
+			'data-args': 'Language'
+		})
+		.html('Language')
+		.appendTo($adminIdentity);
+
+	/* let $btn = $('<button/>')
 		.attr({
 			id: 'change-language',
 			onclick: 'changeLanguage()'
@@ -84,5 +137,5 @@ function createAdminEntity() {
 		$btn.html('English');
 	} else if (LangID === 'zh') {
 		$btn.html('中文');
-	}
+	} */
 }

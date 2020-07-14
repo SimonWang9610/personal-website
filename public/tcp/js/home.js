@@ -24,6 +24,7 @@ function showLatestUpdate(article) {
 			})
 			.html(article.Subject)
 	);
+	$('#update-subject').append($('<span/>').addClass('badge badge-secondary translate').attr('data-args', 'Latest'));
 
 	$('#update-content').html(article.Content);
 }

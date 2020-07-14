@@ -1,15 +1,32 @@
-<div id='blog-nav'>
+<!-- <div id='blog-nav'> -->
+<!--  -->
+	<!-- <div id='home-articles-nav'> -->
+		<!-- <a class='translate' data-args='Home' href="javascript:render('home')"></a> -->
+		<!-- <a class='translate' data-args='Articles' href="javascript:myArticle=null; render('articles')"></a> -->
+	<!-- </div> -->
+	<!--  -->
+<!--  -->
+	<!-- <div id='admin-identity'> -->
+		<!-- <input id='admin-key' type='password' placeholder='Enter Admin Key:'> -->
+		<!-- <button id='become-admin' class='translate' data-args='BecomeAdmin' type='button' onclick='getAdmin()'></button> -->
+		<!-- <span class='translate' data-args='Passenger'></span> -->
+	<!-- </div> -->
+	<!--  -->
+<!-- </div> -->
+	<ul class='navbar-nav'>
+		<li class='navbar-item'>
+			<a class='navbar-link translate' href="javascript: render('home')" data-args='Home'></a>
+		</li>
+		<li class='navbar-item'>
+			<a class='navbar-link translate' href="javascript: myArticle=null; render('articles')" data-args='Articles'></a>
+		</li>
+		<li class='navbar-item dropdown'>
+			<a class='navbar-link dropdown-toggle translate' id='navbardrop' href='javascript:void(0)' data-toggle='dropdown' data-args='Admin'></a>
+			<div class='dropdown-menu' id='admin-identity'>
+				<!-- <a class='dropdown-item translate' href='javascript:void(0)' id='become-admin' onclick='becomeAdmin()' data-args='BecomeAdmin'>Become Admin</a> -->
+				<!-- <a class='dropdown-item translate' href='javascript:void(0)' id='become-passenger' onclick='Logout()' data-args='LogOut'>Logout</a> -->
+				<!-- <a class='dropdown-item translate' href='javascript:void(0)' onclick='changeLanguage()' data-args='Language'>Language</a> -->
+			</div>
+		</li>
+	</ul>
 
-	<div id='home-articles-nav'>
-		<a class='translate' data-args='Home' href="javascript:render('home')"></a>
-		<a class='translate' data-args='Articles' href="javascript:myArticle=null; render('articles')"></a>
-	</div>
-	
-
-	<div id='admin-identity'>
-		<input id='admin-key' type='password' placeholder='Enter Admin Key:'>
-		<button id='become-admin' class='translate' data-args='BecomeAdmin' type='button' onclick='getAdmin()'></button>
-		<span class='translate' data-args='Passenger'></span>
-	</div>
-	
-</div>

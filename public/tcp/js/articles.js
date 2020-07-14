@@ -3,31 +3,13 @@ function prepareArticlesView() {
 	displayAllArticles();
 }
 
-// $('.articles-tabs').click(function() {
-// 	$('.selected').removeClass('.selected');
-// 	$(this).addClass('selected');
-// });
+function prepareCategoryView(type) {
+	createAdminEntity();
+	displayArticlesByCategory(type);
+}
 
 function displayAllArticles() {
-	let $positionInfo = $('.position-info');
-	$positionInfo.empty();
-
-	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
-	// $('<span/>').html(' >>> ').appendTo($positionInfo);
-	$('<span/>').addClass('translate').attr('data-args', 'ArticlesList').appendTo($positionInfo);
-	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
-
-	if (isAdmin()) {
-		$('<button/>')
-			.addClass('translate')
-			.attr({
-				type: 'button',
-				onclick: "render('edit')",
-				'data-args': 'NewArticle'
-			})
-			.appendTo($positionNav);
-	}
-
+	displayPositionInfo('ArticlesList');
 	SimonService.getArticles(null, function(err, articles) {
 		if (articles.length) {
 			showArticles(articles);
@@ -40,17 +22,112 @@ function displayAllArticles() {
 }
 
 function displayArticlesByCategory(type) {
-	let $positionInfo = $('.position-info');
-	$positionInfo.empty();
+	displayPositionInfo(type + 'List');
+	SimonService.getArticles(type, function(err, articles) {
+		if (articles.length) {
+			console.log(articles);
+			// $('#position-info').text('Category >> ' + type);
+			showArticles(articles);
+		} else {
+			$('#articles-list').empty();
+			let $div = $('<div/>').addClass('row').appendTo($('#articles-list'));
 
-	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
-	// $('<span/>').html(' >>> ').appendTo($positionInfo);
-	$('<span/>').addClass('translate').attr('data-args', type + 'List').appendTo($positionInfo);
-	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
+			$('<div/>')
+				.addClass('col d-flex justify-content-center translate')
+				.attr('data-args', 'No' + type + 'Articles')
+				.appendTo($div);
+		}
+		setLocaleTo(LangID);
+	});
+}
+
+function showArticles(articles) {
+	// $('.position-info').text('Article lists');
+	let $articleList = $('#articles-list');
+	$articleList.empty();
+	let $ul = $('<ul/>').appendTo($articleList);
+
+	articles.forEach((article) => {
+		// let $articleInfo = $('<div/>').addClass('row article-info').appendTo($articleList);
+		let $articleInfo = $('<li/>').addClass('d-flex bg-light').appendTo($ul);
+		let $articleSubject = $('<div/>')
+			.addClass('col d-flex justify-content-center each-article-subject')
+			.appendTo($articleInfo);
+
+		$('<a/>')
+			.attr({
+				href: "javascript: render('display', '" + article.Guid + "')"
+			})
+			.html(article.Subject)
+			.appendTo($articleSubject);
+
+		let $articleSummary = $('<div/>')
+			.addClass('col d-flex justify-content-center each-article-summary')
+			.appendTo($articleInfo);
+		let private = article.IsPrivated ? 'Private' : 'Public';
+		let count = article.CommentsCount ? article.CommentsCount : 0;
+
+		// $('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($articleSummary);
+		$('<span/>').html(localDate(article.CreationDate)).appendTo($articleSummary);
+
+		$('<span/>').html('(' + count + '/' + article.ViewsCount + ')').appendTo($articleSummary);
+
+		$('<span/>').addClass('translate').attr('data-args', private).appendTo($articleSummary);
+
+		if (isAdmin()) {
+			/* let $articleSetting = $('<div/>')
+				.addClass('col d-flex justify-content-center dropdown each-article-edit')
+				.appendTo($articleInfo); */
+			let $articleSetting = $('<span/>').addClass('dropdown each-article-edit').appendTo($articleSummary);
+
+			$('<button/>')
+				.addClass('btn btn-warning btn-sm dropdown-toggle translate')
+				.attr({
+					type: 'button',
+					'data-toggle': 'dropdown',
+					'data-args': 'Setting'
+				})
+				.appendTo($articleSetting);
+
+			let $dropdown = $('<div/>').addClass('dropdown-menu').appendTo($articleSetting);
+
+			$('<a/>')
+				.addClass('dropdown-item translate')
+				.attr({
+					href: "javascript: render('edit', '" + article.Guid + "')",
+					'data-args': 'Edit'
+				})
+				.appendTo($dropdown);
+
+			$('<a/>')
+				.addClass('dropdown-item translate')
+				.attr({
+					onclick: "deleteArticle('" + article.Guid + "')",
+					'data-args': 'Delete'
+				})
+				.appendTo($dropdown);
+
+			let changeCategoryTo = article.Category ? 'Public' : 'Private';
+			$('<a/>')
+				.addClass('dropdown-item translate')
+				.attr({
+					onclick: "changeCategory('" + article.Guid + "')",
+					'data-args': 'SetAs' + changeCategoryTo
+				})
+				.appendTo($dropdown);
+		}
+	});
+}
+
+function displayPositionInfo(anchor, category, subject) {
+	let $ul = $('.breadcrumb');
+	let $positionNav = $('.position-nav');
+	$ul.empty();
+	$positionNav.empty();
 
 	if (isAdmin()) {
 		$('<button/>')
-			.addClass('translate')
+			.addClass('btn btn-danger btn-sm translate')
 			.attr({
 				type: 'button',
 				onclick: "render('edit')",
@@ -59,66 +136,67 @@ function displayArticlesByCategory(type) {
 			.appendTo($positionNav);
 	}
 
-	SimonService.getArticles(type, function(err, articles) {
-		if (articles.length) {
-			// $('#position-info').text('Category >> ' + type);
-			showArticles(articles);
-		} else {
-			$('#article-list').empty();
-			$('<p/>').addClass('translate').attr('data-args', 'No' + type + 'Articles').appendTo($('#article-list'));
-		}
-		setLocaleTo(LangID);
-	});
-}
-
-function showArticles(articles) {
-	// $('.position-info').text('Article lists');
-	let $articleList = $('#article-list');
-	$articleList.empty();
-
-	articles.forEach((article) => {
-		let $articleInfo = $('<div/>').addClass('article-info').appendTo($articleList);
-		let $articleSubject = $('<div/>').addClass('each-article-subject').appendTo($articleInfo);
-
+	if (anchor !== 'ArticlesList') {
 		$('<a/>')
+			.addClass('btn btn-outline-danger btn-sm translate')
 			.attr({
-				href: 'javascript:void(0)',
-				onclick: "redirectToSingleArticle('display', '" + article.Guid + "')"
+				onclick: "render('articles')",
+				'data-args': 'BackToArticlesList'
 			})
-			.html(article.Subject)
-			.appendTo($articleSubject);
+			.appendTo($positionNav);
+	}
 
-		let $articleSummary = $('<div/>').addClass('each-article-summary').appendTo($articleInfo);
-		let private = article.IsPrivated ? 'Private' : 'Public';
-		let count = article.CommentsCount ? article.CommentsCount : 0;
+	$('<li/>').addClass('breadcrumb-item translate').attr('data-args', 'CurrentPosition').appendTo($ul);
 
-		$('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($articleSummary);
-		$('<span/>').html(localDate(article.CreationDate)).appendTo($articleSummary);
+	let $liOne = $('<li/>').addClass('breadcrumb-item').appendTo($ul);
 
-		$('<span/>').html(' | (' + count + '/' + article.ViewsCount + ') | ').appendTo($articleSummary);
+	if (anchor === 'ArticlesList') {
+		$liOne.addClass('active translate');
+		$liOne.attr('data-args', anchor);
+		return;
+	}
 
-		$('<span/>').addClass('translate').attr('data-args', private).appendTo($articleSummary);
+	$('<a/>')
+		.addClass('translate')
+		.attr({
+			href: "javascript: myArticle=null; render('articles')",
+			'data-args': 'ArticlesList'
+		})
+		.appendTo($liOne);
 
-		if (isAdmin()) {
-			let $articleEdit = $('<div/>').attr('id', 'each-article-edit').appendTo($articleInfo);
+	let $liTwo = $('<li/>').addClass('breadcrumb-item').appendTo($ul);
 
-			$('<button/>')
-				.addClass('translate')
-				.attr({
-					onclick: "deleteArticle('" + article.Guid + "')",
-					'data-args': 'Delete'
-				})
-				.appendTo($articleEdit);
+	if (anchor === 'DailyList' || anchor === 'NoteList') {
+		console.log('category list');
+		$liTwo.addClass('active translate');
+		$liTwo.attr('data-args', anchor);
+		return;
+	} else {
+		$('<a/>')
+			.addClass('translate')
+			.attr({
+				href: "javascript: render('category', '" + category + "')",
+				// onclick: "displayArticlesByCategory('" + category + "')",
+				'data-args': category + 'List'
+			})
+			.appendTo($liTwo);
+		$('<li/>').addClass('breadcrumb-item active').html(subject).appendTo($ul);
+		return;
+	}
 
-			$('<button/>')
-				.addClass('translate')
-				.attr({
-					onclick: "render('edit', '" + article.Guid + "')",
-					'data-args': 'Edit'
-				})
-				.appendTo($articleEdit);
-		}
-	});
+	/* if (anchor === 'display') {
+		console.log('category');
+		$('<a/>')
+			.addClass('translate')
+			.attr({
+				href: "javascript: render('category', " + category + ')',
+				// onclick: "displayArticlesByCategory('" + category + "')",
+				'data-args': category + 'List'
+			})
+			.appendTo($liTwo);
+		$('<li/>').addClass('breadcrumb-item active').html(subject).appendTo($ul);
+		return;
+	} */
 }
 
 function redirectToSingleArticle(type, Guid) {

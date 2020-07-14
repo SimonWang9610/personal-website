@@ -1,25 +1,23 @@
 function prepareDisplayView(id) {
 	createAdminEntity();
 
-	let $positionInfo = $('.position-info');
-	$positionInfo.empty();
+	//$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
 
-	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
-	// $('<span/>').html(' >>> ').appendTo($positionInfo);
-	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
+	/* let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
 	$('<a/>')
 		.addClass('translate')
 		.attr({
 			href: "javascript: myArticle=null;render('articles');",
 			'data-args': 'BackToArticlesList'
 		})
-		.appendTo($positionNav);
+		.appendTo($positionNav); */
 
 	if (id) {
 		SimonService.getSingleArticle(id, function(err, article) {
 			if (article) {
-				$('<span/>').addClass('translate').attr('data-args', article.Category).insertBefore($positionNav);
+				// $('<span/>').addClass('translate').attr('data-args', article.Category).insertBefore($positionNav);
 				myArticle = article;
+				displayPositionInfo('display', myArticle.Category, myArticle.Subject);
 				showSingleArticle(article);
 				// setLocaleTo(LangID);
 				SimonService.increaseViewsCount(id, function(err, data) {
@@ -44,23 +42,23 @@ function prepareDisplayView(id) {
 
 function showSingleArticle(article) {
 	let $articleSubject = $('#article-subject');
-	$('<span/>').addClass('translate').attr('data-args', 'Subject').appendTo($articleSubject);
+	// $('<span/>').addClass('translate').attr('data-args', 'Subject').appendTo($articleSubject);
 	$('<span/>').html(article.Subject).appendTo($articleSubject);
 
 	if (!article.IsPrivated) {
-		let $summary = $('#one-article-summary');
+		let $summary = $('#article-summary');
 
 		$('<span/>').addClass('translate').attr('data-args', 'CreationDate').appendTo($summary);
-		$('<span/>').html(localDate(article.CreationDate) + ' | ').appendTo($summary);
+		$('<span/>').html(localDate(article.CreationDate)).appendTo($summary);
 
 		if (article.LastEditDate) {
 			// $('<span/>').html(' | Last Edited: ' + localDate(article.LastEditDate)).appendTo($summary);
 			$('<span/>').addClass('translate').attr('data-args', 'LastEdited').appendTo($summary);
-			$('<span/>').html(localDate(article.LastEditDate) + ' | ').appendTo($summary);
+			$('<span/>').html(localDate(article.LastEditDate)).appendTo($summary);
 		}
 
 		let count = article.CommentsCount ? article.CommentsCount : 0;
-		$('<span/>').html(' | (' + count + '/' + article.ViewsCount + ')').appendTo($summary);
+		$('<span/>').html('(' + count + '/' + article.ViewsCount + ')').appendTo($summary);
 
 		$('#article-content').html(article.Content);
 
@@ -75,47 +73,52 @@ function createArticleFooter(articleGuid) {
 	let $footer = $('#article-footer');
 	let count = myArticle.CommentsCount ? myArticle.CommentsCount : 0;
 
-	$('<a/>')
+	/* $('<a/>')
 		.addClass('translate')
 		.attr({
 			href: 'javascript:void(0)',
 			onclick: "showComments('" + articleGuid + "')",
 			'data-args': 'Comment'
 		})
-		.appendTo($footer);
-	$('<span/>').html('(' + count + ') ').appendTo($footer);
+		.appendTo($footer); */
+
+	let $div = $('<div/>').addClass('col-sm-2 d-flex').appendTo($footer);
+	$('<a/>')
+		.addClass('translate')
+		.attr({
+			href: 'javascript: void(0)',
+			onclick: "showComments('" + myArticle.Guid + "')",
+			'data-args': 'Comment'
+		})
+		.appendTo($div);
+	$('<span/>').html('(' + count + ') ').appendTo($div);
 
 	if (isAdmin()) {
+		let $articleSetting = $('<div/>').addClass('col d-flex dropdown').appendTo($footer);
 		$('<button/>')
-			.addClass('translate')
+			.addClass('btn btn-primary btn-sm dropdown-toggle translate')
 			.attr({
-				href: 'javascript:void(0)',
-				onclick: "deleteArticle('" + articleGuid + "')",
-				'data-args': 'Delete'
+				'data-toggle': 'dropdown',
+				'data-args': 'Setting'
 			})
-			.appendTo($footer);
+			.appendTo($articleSetting);
 
-		$('<button/>')
-			.addClass('translate')
+		let $dropdownMenu = $('<div/>').addClass('dropdown-menu').appendTo($articleSetting);
+		$('<a/>')
+			.addClass('dropdown-item translate')
 			.attr({
-				// href: "javascript: render('edit', '" + articleGuid + "');",
-				onclick: "render('edit', '" + articleGuid + "')",
+				href: "javascript: render('display', '" + myArticle.Guid + "')",
 				'data-args': 'Edit'
 			})
-			.appendTo($footer);
+			.appendTo($dropdownMenu);
+
+		$('<a/>')
+			.addClass('dropdown-item translate')
+			.attr({
+				href: 'javascript: void(0)',
+				onclick: 'deleteArticle()',
+				'data-args': 'Delete'
+			})
+			.appendTo($dropdownMenu);
 	}
 }
-
-// function showLikes(likes) {
-// 	// see moment-viewer.js 169
-// }
-
-// function likeArticle(id) {
-// 	SimonService.addLike(id, function(err, data) {
-// 		if (err) {
-// 			showInfoDialog(err.message);
-// 		} else {
-// 			showInfoDialog(data.message);
-// 		}
-// 	});
-// }

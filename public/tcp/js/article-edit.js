@@ -101,9 +101,9 @@ function saveArticle() {
 	});
 }
 
-function deleteArticle(articleGuid) {
-	if (articleGuid) {
-		SimonService.deleteArticle(articleGuid, function(err, data) {
+function deleteArticle() {
+	if (myArticle.Guid) {
+		SimonService.deleteArticle(myArticle.Guid, function(err, data) {
 			if (err) {
 				// showInfoDialog(err.message);
 			} else {

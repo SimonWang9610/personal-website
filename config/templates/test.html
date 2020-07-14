@@ -3,19 +3,170 @@
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Bootstrap</title>
+    
+    <style>
+      .navbar-nav > li {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+
+      .position-info {
+        flex: 1 1 80%;
+        border: 1px solid red;
+      }
+
+      .position-nav {
+        border: 1px solid red;
+      }
+
+      #articles-list {
+        border: 1px solid black;
+        flex: 1 1 80%;
+      }
+
+      #article-category-nav {
+        border: 1px solid red;
+      }
+
+      .article-info div {
+        border: 1px dashed red;
+      }
+
+      .each-article-subject {
+        font-size: 20px;
+      }
+
+      .each-article-summary {
+        font-size: 15px;
+        color: grey;
+      }
+
+      #show-comments {
+        margin-right: 5px;
+      }
+
+      #comments {
+        display: flex;
+        flex-flow: column wrap;
+      }
+
+      .single-comment {
+        border: 1px dashed black;
+      }
+    
+    </style>
   </head>
   <body>
-    <h1>Hello, world!</h1>
+    <nav class='navbar navbar-expand-lg bg-dark'>
+        <ul class='navbar-nav'>
+
+          <li class='navbar-item'>
+            <a class='navbar-link translate' href="javascript: render('home')" data-args='Home'>Home</a>
+          </li>
+
+          <li class='navbar-item'>
+            <a class='navbar-link translate' href="javascript: render('articles')" data-args='Article'>Articles</a>
+          </li>
+        </ul>
+
+        <div class='row navbar-item dropdown'>
+          <a class='navbar-link dropdown-toggle translate btn btn-info' id='navbardrop' href='javascript:void(0)' data-toggle='dropdown' data-args='Admin'>Admin</a>
+          <div class='dropdown-menu'>
+            <a class='dropdown-item translate' href='javascript:void(0)' onclick='becomeAdmin()' data-args='BecomeAdmin'>Become Admin</a>
+            <a class='dropdown-item translate' href='javascript:void(0)' onclick='Logout()' data-args='LogOut'>Logout</a>
+            <a class='dropdown-item translate' href='javascript:void(0)' onclick='changeLanguage()' data-args='Language'>Language</a>
+          </div>
+        </div>
+    </nav>
+
+    <div class='row'>
+      <div class='col d-flex justify-content-start position-info'>
+		<span class='current-position translate' data-args='CurrentPosition'>Current Position >>> </span>
+
+        <div id='position-links'>
+          <ul class='breadcrumb'>
+            <li class='breadcrumb-item active'><a class='disable' href='/articles'>Articles</a></li>
+            <!-- <li class='breadcrumb-item active'>Daily</li> -->
+          </ul>
+        </div>
+      </div>
+      <div class='col d-flex justify-content-end position-nav'>link</div>
+    </div>
+
+    <div class='row'>
+      <div class='col' id='display-article'>
+        
+        <div class='row'>
+          <div class='col d-flex justify-content-center translate' id='article-subject' data-args='Subject'>Subject</div>
+        </div>
+
+        <div class='row'>
+          <div class='col d-flex justify-content-center' id='article-summary'>Summary</div>
+        </div>
+
+        <div class='row'>
+          <div class='col d-flex justify-content-center' id='article-content'>Content</div>
+        </div>
+      </div>
+    </div>
+
+    <div class='row' id='article-footer'>
+      <div class='col-sm-2 d-flex'>
+        <a class='translate' id='show-comments' href='javascript:void(0)' onclick='showComments()' data-args='Comment'>Comment</a>
+        <span> (10) </span>
+      </div>
+      <div class='col d-flex dropdown' id='article-setting'>
+        <button class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown' dta-args='Setting'>Setting</button>
+        <div class='dropdown-menu'>
+          <a class='dropdown-item translate' href='javascript:void(0)' onclick='editArticle()' data-args='Edit'>Edit</a>
+          <a class='dropdown-item translate' href='javascript:void(0)' onclick='deleteArticle()' data-args='Delete'>Delete</a>
+        </div>
+      </div>
+    </div>
+
+    
+    <div id='comments'>
+      <div class='single-comment'>
+        <div class='row justify-content-center'>
+          <div class='col-sm-11'>
+            <span class='comment-author'>Author</span>
+            <span class='comment-time'>Created at DATE</span>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col d-flex justify-content-center'>
+            Comment
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+      <footer class='page-footer bg-dark'>
+        <div class='row justify-content-center'>
+          <div class='col-sm-3'>
+            <a class='translate btn btn-outline-info' href='javascript:void(0)' data-args='Books'>Books</a>
+          </div>
+          <div class='col-sm-3'>
+            <a class='translate btn btn-outline-info' href="render('articles')" data-args='Articles'>Articles</a>
+          </div>
+          <div class='col-sm-3'>
+            <a class='translate btn btn-outline-info' href='#' data-args='BackToTop'>Back to top</a>
+          </div>
+        </div>
+      </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>

@@ -11,9 +11,23 @@ function showComments(articleGuid) {
 			// showInfoDialog(err.message);
 		} else {
 			if (comments.length) {
-				let floor = LangID === 'en' ? ' F' : ' 楼';
+				let html = [];
 				comments.forEach((comment) => {
-					let $div = $('<div/>').addClass('single-comment').appendTo($comments);
+					html.push('<div class="single-comment">');
+					html.push('<div class="row justify-content-center">');
+					html.push('<div class="col-sm-11">');
+					html.push('<span class="comment-author">' + comment.Author + '<span/>');
+					// html.push('<span class="translate" data-args="CreatedAt"><span/>');
+					html.push('<span class="comment-date">' + localDate(comment.CreationDate) + '<span/>');
+					html.push('<div/><div/>');
+
+					html.push('<div class="row">');
+					html.push('<div class="col d-flex justify-content-center">' + comment.Content + '<div/>');
+					html.push('<div/><div/>');
+
+					/* let $div = $('<div/>').addClass('single-comment').appendTo($comments);
+
+					let $;
 					let $commentInfo = $('<div/>').addClass('comment-info').appendTo($div);
 					$('<span/>').addClass('comment-author').html(comment.Author + ' ').appendTo($commentInfo);
 
@@ -21,7 +35,10 @@ function showComments(articleGuid) {
 					$('<span/>').html(localDate(comment.CreationDate)).appendTo($commentInfo);
 
 					$('<div/>').addClass('comment-content').html(comment.Content).appendTo($div);
+					*/
 				});
+
+				$(html.join('')).appendTo($('#comments'));
 				setLocaleTo(LangID);
 			} else {
 				$('<p/>').addClass('translate').attr('data-args', 'FirstComment').appendTo($comments);

@@ -1,0 +1,24 @@
+#articles-list {
+	border: 1px solid red;
+	flex: 1 1 75%;
+}
+
+.each-article-summary span {
+	margin-right: 16px;
+}
+
+#update-subject > * {
+	margin-left: 8px;
+}
+
+.position-nav button {
+	margin-right: 30px;
+}
+
+.breadcrumb > .active {
+	color: black;
+}
+
+#article-summary span {
+	margin-right: 8px;
+}

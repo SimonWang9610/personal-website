@@ -22,7 +22,7 @@ $.i18n().load({
 		Email: 'Email',
 		FirstComment: 'Write First Comment',
 		Passenger: 'Passenger',
-		CreatedAt: 'Created At ',
+		CreatedAt: 'Created At: ',
 		Books: 'Books',
 		BackToTop: '> Back To Top',
 		BackToArticlesList: '> Back To Articles List',
@@ -38,8 +38,16 @@ $.i18n().load({
 		NoNoteArticles: 'No Note Articles',
 		NoDailyArticles: 'No Daily Articles',
 		ArticlesNoExists: 'Article No Exists',
-		Admin: ' | Admin | ',
-		Logout: 'Logout'
+		Admin: ' Admin ',
+		LogOut: 'Logout',
+		SetAsPublic: 'Set as Public',
+		SetAsPrivate: 'Set as Private',
+		Setting: 'Setting',
+		Latest: 'LATEST',
+		ArticlesCategory: 'Article Categories',
+		SetAs: 'Set as',
+		Privacy: 'Privacy',
+		Category: 'Category'
 	},
 	zh: {
 		Title: '标题: ',
@@ -80,7 +88,12 @@ $.i18n().load({
 		NoNoteArticles: '没有笔记文章',
 		NoDailyArticles: '没有日记文章',
 		ArticlesNoExists: '文章不存在',
-		Admin: ' | 管理员 | ',
-		Logout: '退出'
+		Admin: ' 管理员 ',
+		LogOut: '退出',
+		Setting: ' Setting',
+		Latest: 'LATEST',
+		SetAs: 'Set as: ',
+		Privacy: 'Privacy',
+		Category: 'Category'
 	}
 });
