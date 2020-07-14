@@ -11,19 +11,17 @@ function showComments(articleGuid) {
 			// showInfoDialog(err.message);
 		} else {
 			if (comments.length) {
-				let html = [];
+				let $comments = $('#comments');
 				comments.forEach((comment) => {
-					html.push('<div class="single-comment">');
-					html.push('<div class="row justify-content-center">');
-					html.push('<div class="col-sm-11">');
-					html.push('<span class="comment-author">' + comment.Author + '<span/>');
-					// html.push('<span class="translate" data-args="CreatedAt"><span/>');
-					html.push('<span class="comment-date">' + localDate(comment.CreationDate) + '<span/>');
-					html.push('<div/><div/>');
+					let $singleComment = $('<div/>').addClass('single-comment').appendTo($comments);
+					let $row = $('<div/>').addClass('row justify-content-center').appendTo($singleComment);
+					let $col = $('<div/>').addClass('col-sm-8').appendTo($row);
 
-					html.push('<div class="row">');
-					html.push('<div class="col d-flex justify-content-center">' + comment.Content + '<div/>');
-					html.push('<div/><div/>');
+					$('<span/>').addClass('comment-author').html(comment.Author).appendTo($col);
+					$('<span/>').addClass('comment-date').html(localDate(comment.CreationDate)).appendTo($col);
+
+					let $rowContent = $('<div/>').addClass('row justify-content-center').appendTo($singleComment);
+					$('<div/>').addClass('col-sm-8 d-flex').html(comment.Content).appendTo($rowContent);
 
 					/* let $div = $('<div/>').addClass('single-comment').appendTo($comments);
 
@@ -38,7 +36,6 @@ function showComments(articleGuid) {
 					*/
 				});
 
-				$(html.join('')).appendTo($('#comments'));
 				setLocaleTo(LangID);
 			} else {
 				$('<p/>').addClass('translate').attr('data-args', 'FirstComment').appendTo($comments);
@@ -64,21 +61,23 @@ function initCommentForm() {
 }
 
 function addComment() {
+	let basicForm = document.getElementById('comment-form');
+
+	if (basicForm.checkValidity() === false) {
+		basicForm.classList.add('was-validated');
+		return;
+	}
+
 	let author = $('#form-comment-author').val();
 	let content = $('#form-comment-content').val();
 	console.log(author);
-
-	if (!author) {
-		alert('Email can not be empty!');
-		return false;
-	}
 
 	let payload = {
 		Author: author,
 		Content: content,
 		ArticleGuid: myArticle.Guid
 	};
-
+	console.log(payload);
 	clearComment();
 
 	SimonService.addComment(payload, function(err, data) {

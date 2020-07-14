@@ -58,6 +58,10 @@
       .single-comment {
         border: 1px dashed black;
       }
+
+      .row {
+        margin-bottom: 20px;
+      }
     
     </style>
   </head>
@@ -84,66 +88,46 @@
         </div>
     </nav>
 
-    <div class='row'>
-      <div class='col d-flex justify-content-start position-info'>
-		<span class='current-position translate' data-args='CurrentPosition'>Current Position >>> </span>
-
-        <div id='position-links'>
-          <ul class='breadcrumb'>
-            <li class='breadcrumb-item active'><a class='disable' href='/articles'>Articles</a></li>
-            <!-- <li class='breadcrumb-item active'>Daily</li> -->
-          </ul>
-        </div>
-      </div>
-      <div class='col d-flex justify-content-end position-nav'>link</div>
-    </div>
-
-    <div class='row'>
-      <div class='col' id='display-article'>
-        
-        <div class='row'>
-          <div class='col d-flex justify-content-center translate' id='article-subject' data-args='Subject'>Subject</div>
-        </div>
-
-        <div class='row'>
-          <div class='col d-flex justify-content-center' id='article-summary'>Summary</div>
-        </div>
-
-        <div class='row'>
-          <div class='col d-flex justify-content-center' id='article-content'>Content</div>
-        </div>
-      </div>
-    </div>
-
-    <div class='row' id='article-footer'>
-      <div class='col-sm-2 d-flex'>
-        <a class='translate' id='show-comments' href='javascript:void(0)' onclick='showComments()' data-args='Comment'>Comment</a>
-        <span> (10) </span>
-      </div>
-      <div class='col d-flex dropdown' id='article-setting'>
-        <button class='btn btn-primary btn-sm dropdown-toggle' data-toggle='dropdown' dta-args='Setting'>Setting</button>
-        <div class='dropdown-menu'>
-          <a class='dropdown-item translate' href='javascript:void(0)' onclick='editArticle()' data-args='Edit'>Edit</a>
-          <a class='dropdown-item translate' href='javascript:void(0)' onclick='deleteArticle()' data-args='Delete'>Delete</a>
-        </div>
-      </div>
-    </div>
-
-    
-    <div id='comments'>
-      <div class='single-comment'>
+    <div class='row justify-content-center'>
+      <form class='needs-validation' id='setting-form' novalidate>
         <div class='row justify-content-center'>
-          <div class='col-sm-11'>
-            <span class='comment-author'>Author</span>
-            <span class='comment-time'>Created at DATE</span>
+          <div class='col-sm-4 d-flex'>
+            <div class='form-group'>
+              <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text translate' data-args='Privacy'>privacy</span>
+                </div>
+                <select class='form-control input-sm' style='width: auto' id='privacy' name='privacy'>
+                  <option class='translate' data-args='Public'>public</option>
+                  <option class='translate' data-args='Private'>private</option>
+                </select>
+              </div>
+            </div>
+          </div>
+    
+          <div class='col-sm-4 d-flex'>
+            <div class='form-group'>
+              <div class='input-group mb-3'>
+                <div class='input-group-prepend'>
+                  <span class='input-group-text translate' data-args='Category'>category</span>
+                </div>
+                <select class='form-control input-sm col-xs-2' id='category' name='category'>
+                  <option class='translate' data-args='Daily'>daily</option>
+                  <option class='translate' data-args='Note'>note</option>
+                </select>
+              </div>
+            </div>
+          </div>
+    
+          <div class='col-sm-4 d-flex'>
+            <div class='form-group' id='form-submit'>
+              <button class='btn btn-success btn-sm translate' data-args='Save' type='button' onclick='gather()'>save</button>
+              <button class='btn btn-primary btn-sm translate' data-args='Cancel' type='button' onclick='cancelEdit()'>cancel</button>
+            </div>
           </div>
         </div>
-        <div class='row'>
-          <div class='col d-flex justify-content-center'>
-            Comment
-          </div>
-        </div>
-      </div>
+        
+      </form>
     </div>
 
 
@@ -169,5 +153,19 @@
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script>
+
+      // $(document).ready(function() {
+        // $('#category').val('daily');
+        // $('#privacy').val('private');
+      // })
+
+      function gather() {
+        let category = $('#category').val();
+        let privacy = $('#privacy').val();
+        console.log(category + ' ' + privacy);
+      }
+      
+    </script>
   </body>
 </html>

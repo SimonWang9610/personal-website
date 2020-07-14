@@ -1,11 +1,32 @@
-<div id='comment-form'>
-	<form id='new-comment'>
-		<label for='form-comment-author' class='translate' data-args='Email'></label>
-		<input type='text' id='form-comment-author' name='comment-author' placeholder='Enter your email'><br>
-		<label for='form-comment-content' class='translate' data-args='Comment'></label>
-		<textarea id='form-comment-content' name='comment-content' placeholder='Say something'></textarea><br>
-		<button class='translate' data-args='Save' type='button' onclick='addComment()'></button>
-		<button class='translate' data-args='Cancel' type='button' onclick='clearComment()'></button>
-	</form>
-</div>
+<!-- <div id='comment-form'> -->
+	<!-- <form id='new-comment'> -->
+		<!-- <label for='form-comment-author' class='translate' data-args='Email'></label> -->
+		<!-- <input type='text' id='form-comment-author' name='comment-author' placeholder='Enter your email'><br> -->
+		<!-- <label for='form-comment-content' class='translate' data-args='Comment'></label> -->
+		<!-- <textarea id='form-comment-content' name='comment-content' placeholder='Say something'></textarea><br> -->
+		<!-- <button class='translate' data-args='Save' type='button' onclick='addComment()'></button> -->
+		<!-- <button class='translate' data-args='Cancel' type='button' onclick='clearComment()'></button> -->
+	<!-- </form> -->
+<!-- </div> -->
 
+
+<div class='row justify-content-center'>
+	<div class='col-sm-8'>
+	  <form class='needs-validate' id='comment-form' novalidate>
+		<div class='form-group'>
+		  <textarea class='form-control' id='form-comment-content' rows='3' placeholder='Say something...'></textarea>
+		</div>
+  
+		<div class='form-group'>
+		  <div class='input-group mb-3'>
+			<input type='email' id='form-comment-author' class='form-control' placeholder="enter your email" required>
+			<div class='input-group-append'>
+			  <button type='button' class='btn btn-primary btn-sm form-control translate' data-args='Add' onclick='addComment()'></button>
+			</div>
+		  </div>
+  
+		  <div class='invalid-feedback'>required key</div>
+		</div>
+	  </form>
+	</div>
+  </div>

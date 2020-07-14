@@ -1,33 +1,49 @@
+var currentPage = 1;
+var currentType = null;
+var currentState = 1;
+
 function prepareArticlesView() {
 	createAdminEntity();
-	displayAllArticles();
+	displayAllArticles(currentPage);
 }
 
 function prepareCategoryView(type) {
 	createAdminEntity();
-	displayArticlesByCategory(type);
+	displayArticlesByCategory(currentPage, type);
 }
 
-function displayAllArticles() {
+function displayAllArticles(page) {
+	currentType = null;
 	displayPositionInfo('ArticlesList');
-	SimonService.getArticles(null, function(err, articles) {
+	currentState = 1;
+	SimonService.getArticles(page, currentType, currentState, function(err, articles) {
 		if (articles.length) {
+			// first redirect to the specific list, have to reset pagination
+			// the page number as the final element of Array 'articles'
+			let number = articles.pop();
 			showArticles(articles);
+			createPagination(number);
+			currentState = 0;
+			console.log(number);
 		} else {
 			$('<span/>').addClass('translate').attr('data-args', 'NoArticles').appendTo($('#article-list'));
 		}
-		console.log('Setting language!');
 		setLocaleTo(LangID);
 	});
 }
 
-function displayArticlesByCategory(type) {
+function displayArticlesByCategory(page, type) {
+	currentType = type;
 	displayPositionInfo(type + 'List');
-	SimonService.getArticles(type, function(err, articles) {
+	currentState = 1;
+	SimonService.getArticles(page, currentType, currentState, function(err, articles) {
 		if (articles.length) {
-			console.log(articles);
 			// $('#position-info').text('Category >> ' + type);
+			let number = articles.pop();
 			showArticles(articles);
+			createPagination(number);
+			currentState = 0;
+			console.log(number);
 		} else {
 			$('#articles-list').empty();
 			let $div = $('<div/>').addClass('row').appendTo($('#articles-list'));
@@ -43,6 +59,7 @@ function displayArticlesByCategory(type) {
 
 function showArticles(articles) {
 	// $('.position-info').text('Article lists');
+	console.log(articles);
 	let $articleList = $('#articles-list');
 	$articleList.empty();
 	let $ul = $('<ul/>').appendTo($articleList);
@@ -64,7 +81,7 @@ function showArticles(articles) {
 		let $articleSummary = $('<div/>')
 			.addClass('col d-flex justify-content-center each-article-summary')
 			.appendTo($articleInfo);
-		let private = article.IsPrivated ? 'Private' : 'Public';
+		let privated = article.IsPrivated ? 'Private' : 'Public';
 		let count = article.CommentsCount ? article.CommentsCount : 0;
 
 		// $('<span/>').addClass('translate').attr('data-args', 'CreatedAt').appendTo($articleSummary);
@@ -72,7 +89,7 @@ function showArticles(articles) {
 
 		$('<span/>').html('(' + count + '/' + article.ViewsCount + ')').appendTo($articleSummary);
 
-		$('<span/>').addClass('translate').attr('data-args', private).appendTo($articleSummary);
+		$('<span/>').addClass('translate').attr('data-args', privated).appendTo($articleSummary);
 
 		if (isAdmin()) {
 			/* let $articleSetting = $('<div/>')
@@ -102,7 +119,7 @@ function showArticles(articles) {
 			$('<a/>')
 				.addClass('dropdown-item translate')
 				.attr({
-					onclick: "deleteArticle('" + article.Guid + "')",
+					onclick: "confirmDelete('" + article.Guid + "')",
 					'data-args': 'Delete'
 				})
 				.appendTo($dropdown);
@@ -167,7 +184,6 @@ function displayPositionInfo(anchor, category, subject) {
 	let $liTwo = $('<li/>').addClass('breadcrumb-item').appendTo($ul);
 
 	if (anchor === 'DailyList' || anchor === 'NoteList') {
-		console.log('category list');
 		$liTwo.addClass('active translate');
 		$liTwo.attr('data-args', anchor);
 		return;
@@ -180,25 +196,72 @@ function displayPositionInfo(anchor, category, subject) {
 				'data-args': category + 'List'
 			})
 			.appendTo($liTwo);
+
+		if (anchor === 'Edit') subject += ' (Edit)';
 		$('<li/>').addClass('breadcrumb-item active').html(subject).appendTo($ul);
 		return;
 	}
-
-	/* if (anchor === 'display') {
-		console.log('category');
-		$('<a/>')
-			.addClass('translate')
-			.attr({
-				href: "javascript: render('category', " + category + ')',
-				// onclick: "displayArticlesByCategory('" + category + "')",
-				'data-args': category + 'List'
-			})
-			.appendTo($liTwo);
-		$('<li/>').addClass('breadcrumb-item active').html(subject).appendTo($ul);
-		return;
-	} */
 }
 
 function redirectToSingleArticle(type, Guid) {
 	render(type, Guid);
 }
+
+function createPagination(number) {
+	let $pagination = $('.pagination');
+	$pagination.empty();
+
+	for (let i = 1; i <= number; i++) {
+		let $li = $('<li/>').addClass('page-item').attr('tabindex', '-1').appendTo($pagination);
+		if (i == 1) $li.addClass('active disabled');
+
+		$('<a/>')
+			.addClass('page-link')
+			.attr({
+				href: 'javascript: void(0)',
+				onclick: "gotoPage('" + i + "')"
+			})
+			.html(i)
+			.appendTo($li);
+	}
+}
+
+function gotoPage(page) {
+	currentPage = parseInt(page);
+	/* $('.pagination li.disabled').removeClass('active disabled');
+	$('.pagination').find('li').eq(currentPage - 1).addClass('active disabled'); */
+	SimonService.getArticles(page, currentType, currentState, function(err, articles) {
+		if (articles.length) {
+			showArticles(articles);
+		} else {
+			$('<span/>').addClass('translate').attr('data-args', 'NoArticles').appendTo($('#article-list'));
+		}
+		setLocaleTo(LangID);
+	});
+}
+
+function createPrevious(position, positionIcon) {
+	let $li = $('<li/>').addClass('page-item');
+	let $a = $('<a/>')
+		.addClass('page-link')
+		.attr({
+			href: 'javascript:void(0)',
+			onclick: 'goto' + position + '()',
+			'aria-label': position
+		})
+		.appendTo($li);
+
+	$('<span/>').attr('aria-hidden', 'true').html(positionIcon).appendTo($a);
+	$('<span/>').addClass('sr-only').html(position).appendTo($a);
+
+	return $li;
+}
+
+$(document).ready(function() {
+	$('.pagination li a').click(function(e) {
+		$('.pagination li.active').removeClass('active disabled');
+		let $parent = $(this).parent();
+		$parent.addClass('active disabled');
+		// e.preventDefault();
+	});
+});

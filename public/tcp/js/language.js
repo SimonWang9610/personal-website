@@ -47,7 +47,8 @@ $.i18n().load({
 		ArticlesCategory: 'Article Categories',
 		SetAs: 'Set as',
 		Privacy: 'Privacy',
-		Category: 'Category'
+		Category: 'Category',
+		Add: 'Add'
 	},
 	zh: {
 		Title: '标题: ',
@@ -90,10 +91,14 @@ $.i18n().load({
 		ArticlesNoExists: '文章不存在',
 		Admin: ' 管理员 ',
 		LogOut: '退出',
-		Setting: ' Setting',
-		Latest: 'LATEST',
-		SetAs: 'Set as: ',
-		Privacy: 'Privacy',
-		Category: 'Category'
+		SetAsPublic: '设为公开',
+		SetAsPrivate: '设为私密',
+		Setting: '设置',
+		Latest: '最新',
+		ArticlesCategory: '文章分类',
+		SetAs: '设为',
+		Privacy: '权限',
+		Category: '分类',
+		Add: '发表'
 	}
 });

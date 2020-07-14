@@ -1,6 +1,6 @@
 function prepareHomeView() {
 	createAdminEntity();
-	SimonService.getArticles('latest', function(err, article) {
+	SimonService.getLatestArticle('latest', function(err, article) {
 		if (article) {
 			showLatestUpdate(article);
 			setLocaleTo(LangID);

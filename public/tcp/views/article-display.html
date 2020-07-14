@@ -29,49 +29,23 @@
 <div class='row'>
 	<div class='col' id='display-article'>
 	  
-	  <div class='row'>
-		<div class='col d-flex justify-content-center' id='article-subject'></div>
-	  </div>
-
-	  <div class='row'>
-		<div class='col d-flex' id='article-summary'></div>
+	  <div class='row justify-content-center'>
+		<div class='col-sm-8 d-flex' id='article-subject'></div>
 	  </div>
 
 	  <div class='row justify-content-center'>
-		<div class='col-sm-8 d-flex bg-secondary' id='article-content'></div>
+		<div class='col-sm-8 d-flex' id='article-summary'></div>
+	  </div>
+
+	  <div class='row justify-content-center'>
+		<div class='col-sm-8 d-flex bg-light' id='article-content'></div>
 	  </div>
 	</div>
 </div>
 
-<div class='row'>
-	<form class='needs-validation' id='setting-form' novalidate>
-		<div class='form-group'>
-			<div class='input-group mb-3'>
-				<div class='input-group-prepend'>
-					<span class='input-group-text translate' data-args='Privacy'></span>
-				</div>
-				<select class='form-control' id='privacy' name='privacy'>
-					<option class='translate' data-args='Public'></option>
-					<option class='translate' data-args='Private'></option>
-				</select>
-			</div>
-		</div>
 
-		<div class='form-group'>
-			<div class='input-group mb-3'>
-				<div class='input-group-prepend'>
-					<span class='input-group-text translate' data-args='Category'></span>
-				</div>
-				<select class='form-control' id='category' name='category'>
-					<option class='translate' data-args='Daily'></option>
-					<option class='translate' data-args='Note'></option>
-				</select>
-			</div>
-		</div>
-	</form>
-</div>
 
-<div class='row' id='article-footer'>
+<div class='row justify-content-center' id='article-footer'>
 	<!-- <div class='col-sm-2 d-flex'> -->
 	  <!-- <a class='translate' id='show-comments' href='javascript:void(0)' onclick='showComments()' data-args='Comment'></a> -->
 	<!-- </div> -->

@@ -1,39 +1,103 @@
-<div id='container'>
-	<div id='edit-article'>
-		<div class='position-info'>
+<!-- <div id='container'> -->
+	<!-- <div id='edit-article'> -->
+		<!-- <div class='position-info'> -->
 			<!-- <div class='position-nav'></div> -->
-		</div>
+		<!-- </div> -->
+<!--  -->
+		<!-- <div id='article-main'> -->
+			<!-- <form id='basic-form'> -->
+				<!--  -->
+				<!-- <div> -->
+					<!-- <label for='subject' class='translate' data-args='Subject'></label> -->
+					<!-- <input id='subject' type='text' name='subject'> -->
+				<!-- </div> -->
+				<!--  -->
+				<!-- <div id='editor'></div> -->
+				<!--  -->
+				<!-- <div id='article-properties'> -->
+					<!-- <div id='category'> -->
+						<!-- <input id='daily' type='radio' name='category' value='Daily'> -->
+						<!-- <label for='daily' class='translate' data-args='Daily'></label><br> -->
+						<!-- <input id='note' type='radio' name='category' value='Note'> -->
+						<!-- <label for='note' class='translate' data-args='Note'></label><br> -->
+					<!-- </div> -->
+					<!-- <div id='setPrivated'> -->
+						<!-- <input id='public' type='radio' name='setPrivated' value='Public'> -->
+						<!-- <label for='public' class='translate' data-args='Public'></label><br> -->
+						<!-- <input id='private' type='radio' name='setPrivated' value='Private'> -->
+						<!-- <label for='private' class='translate' data-args='Private'></label><br>	 -->
+					<!-- </div> -->
+<!--  -->
+					<!-- <div id='submit-form'> -->
+						<!-- <button class='translate' data-args='Save' type='button' onclick='saveArticle()'></button> -->
+						<!-- <button class='translate' data-args='Cancel' type='button' onclick='cancelEdit()'></button> -->
+					<!-- </div> -->
+				<!-- </div> -->
+			<!-- </form> -->
+		<!-- </div> -->
+	<!-- </div> -->
+<!-- </div> -->
 
-		<div id='article-main'>
-			<form id='basic-form'>
-				
-				<div>
-					<label for='subject' class='translate' data-args='Subject'></label>
-					<input id='subject' type='text' name='subject'>
-				</div>
-				
-				<div id='editor'></div>
-				
-				<div id='article-properties'>
-					<div id='category'>
-						<input id='daily' type='radio' name='category' value='Daily'>
-						<label for='daily' class='translate' data-args='Daily'></label><br>
-						<input id='note' type='radio' name='category' value='Note'>
-						<label for='note' class='translate' data-args='Note'></label><br>
-					</div>
-					<div id='setPrivated'>
-						<input id='public' type='radio' name='setPrivated' value='Public'>
-						<label for='public' class='translate' data-args='Public'></label><br>
-						<input id='private' type='radio' name='setPrivated' value='Private'>
-						<label for='private' class='translate' data-args='Private'></label><br>	
-					</div>
 
-					<div id='submit-form'>
-						<button class='translate' data-args='Save' type='button' onclick='saveArticle()'></button>
-						<button class='translate' data-args='Cancel' type='button' onclick='cancelEdit()'></button>
-					</div>
-				</div>
-			</form>
-		</div>
+<div class='row'>
+	<div class='col d-flex bg-info justify-content-start position-info'>
+		<ul class='breadcrumb bg-info text-dark'></ul>
 	</div>
+	<div class='col d-flex bg-info justify-content-end position-nav'>
+		<!-- <a class='translate' href="javascript: myArticle=null; render('articles')" data-args='BackToArticlesList'></a> -->
+	</div>
+</div>
+
+<div class='row justify-content-center'>
+	<div class='col-sm-9 d-flex'>
+		<label for='subject' class='translate' data-args='Subject'></label>
+		<input id='subject' type='text' name='subject'>
+	</div>
+</div>
+
+<div class='row justify-content-center'>
+	<div class='col-sm-9 d-flex' id='editor'>
+	</div>
+</div>' 
+
+<div class='row justify-content-center'>
+	<form class='needs-validation' id='setting-form' novalidate>
+		<div class='row justify-content-center'>
+			<div class='col-sm-4 d-flex'>
+				<div class='form-group'>
+					<div class='input-group mb-3'>
+						<div class='input-group-prepend'>
+							<span class='input-group-text translate' data-args='Privacy'></span>
+						</div>
+						<select class='form-control input-sm' style='width: auto' id='privacy' name='privacy'>
+							<option class='translate' data-args='Public'></option>
+							<option class='translate' data-args='Private'></option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-sm-4 d-flex'>
+				<div class='form-group'>
+					<div class='input-group mb-3'>
+						<div class='input-group-prepend'>
+							<span class='input-group-text translate' data-args='Category'></span>
+						</div>
+						<select class='form-control input-sm col-xs-2' id='category' name='category'>
+							<option class='translate' data-args='Daily'></option>
+							<option class='translate' data-args='Note'></option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-sm-4 d-flex'>
+				<div class='form-group' id='form-submit'>
+					<button class='btn btn-success btn-sm translate' data-args='Save' type='button' onclick='saveArticle()'></button>
+					<button class='btn btn-primary btn-sm translate' data-args='Cancel' type='button' onclick='cancelEdit()'></button>
+				</div>
+			</div>
+		</div>
+		
+	</form>
 </div>

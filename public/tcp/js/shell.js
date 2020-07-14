@@ -3,6 +3,10 @@ const uiPage = {
 		url: '/tcp/views/article-list.html',
 		mode: 'inline',
 		callback: function() {
+			myArticle = null;
+			articleGuid = null;
+			currentPage = 1;
+			currentType = null;
 			prepareArticlesView();
 		}
 	},
@@ -10,6 +14,8 @@ const uiPage = {
 		url: '/tcp/views/article-list.html',
 		mode: 'inline',
 		callback: function(type) {
+			currentPage = 1;
+			currentType = type;
 			prepareCategoryView(type);
 		}
 	},
@@ -17,6 +23,9 @@ const uiPage = {
 		url: '/tcp/views/home.html',
 		mode: 'inline',
 		callback: function() {
+			myArticle = null;
+			articleGuid = null;
+			currentType = null;
 			prepareHomeView();
 		}
 	},

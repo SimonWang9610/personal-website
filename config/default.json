@@ -37,10 +37,13 @@
 	},
 	"storage": {
 		"default": "vault",
-		"valut": {
+		"vault": {
 			"root": "/opt/genesis/vault",
 			"video": "/vault",
 			"image": "/vault"
 		}
+	},
+	"pagination": {
+		"perPage": 5
 	}
 }

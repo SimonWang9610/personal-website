@@ -18,17 +18,24 @@
 			<ul class='nav flex-column'>
 				<li class='translate' data-args='ArticlesCategory'></li>
 				<li class='nav-item'>
-				  <a class='nav-link articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick='displayAllArticles()'>All Articles</a>
+				  <a class='nav-link articles-tabs translate' data-args='AllArticles' href='javascript:void(0)' onclick="displayAllArticles('1')">All Articles</a>
 				</li>
 	
 				<li class='nav-item'>
-					<a class='nav-link articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('Note')">Note</a>
+					<a class='nav-link articles-tabs translate' data-args='Note' href='javascript:void(0)' onclick="displayArticlesByCategory('1', 'Note')">Note</a>
 				</li>
 	
 				<li class='nav-item'>
-					<a class='nav-link articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('Daily')">Daily</a>
+					<a class='nav-link articles-tabs translate'  data-args='Daily' href='javascript:void(0)' onclick="displayArticlesByCategory('1', 'Daily')">Daily</a>
 				</li>
 			  </ul>
+		</div>
+	</div>
+
+	<div class='row justify-content-center'>
+		<div class='col-sm-8'>
+			<ul class='pagination justify-content-center' style='margin: 20px 0'>
+			</ul>
 		</div>
 	</div>
 </div>

@@ -4,27 +4,12 @@
  */
 var theUploadurl = '/api/v1/upload/article';
 var myArticle = null;
-var setPrivated = 0;
-var category = 'Daily';
+var articleGuid = null;
+// var setPrivated = 0;
+// var category = 'Daily';
 
 function prepareEditView(id) {
 	createAdminEntity();
-
-	let $positionInfo = $('.position-info');
-	$positionInfo.empty();
-
-	$('<span/>').addClass('translate').attr('data-args', 'CurrentPosition').appendTo($positionInfo);
-	// $('<span/>').html(' >>> ').appendTo($positionInfo);
-	$('<span/>').addClass('translate').attr('data-args', 'EditArticle').appendTo($positionInfo);
-	let $positionNav = $('<div/>').addClass('position-nav').appendTo($positionInfo);
-
-	$('<a/>')
-		.addClass('translate')
-		.attr({
-			href: "javascript: myArticle=null; render('articles')",
-			'data-args': 'BackToArticlesList'
-		})
-		.appendTo($positionNav);
 
 	if (id) {
 		SimonService.getSingleArticle(id, function(err, article) {
@@ -35,6 +20,9 @@ function prepareEditView(id) {
 			// $("input[vale='setPrivated']").attr('checked', 'true');
 
 			myArticle = article;
+			articleGuid = myArticle.Guid;
+			displayPositionInfo('Edit', myArticle.Category, myArticle.Subject);
+
 			showEditor(article);
 			console.log('Setting language!');
 			setLocaleTo(LangID);
@@ -51,17 +39,20 @@ function showEditor(article) {
 		$('#subject').val(article.Subject);
 		setPrivated = article.IsPrivated;
 		$('#editor').html(article.Content);
+
 		$('<button/>')
-			.addClass('translate')
+			.addClass('btn btn-danger btn-sm translate')
 			.attr({
 				type: 'button',
-				onclick: "deleteArticle('" + article.Guid + "')",
+				onclick: 'confirmDelete()',
 				'data-args': 'Delete'
 			})
-			.appendTo($('#submit-form'));
+			.appendTo($('#form-submit'));
 	}
 
 	initQuill(); // quill.js
+
+	articleSetting();
 }
 
 function saveArticle() {
@@ -69,6 +60,9 @@ function saveArticle() {
 
 	let subject = $('#subject').val().trim();
 	let content = myEditor.root.innerHTML;
+
+	let category = convertCategory($('#category').val());
+	let privacy = convertPrivacy($('#privacy').val());
 	// articlePropertySetting();
 
 	let payload = null;
@@ -78,14 +72,14 @@ function saveArticle() {
 			Guid: myArticle.Guid,
 			Subject: subject,
 			Content: content,
-			IsPrivated: setPrivated,
+			IsPrivated: privacy,
 			Category: category
 		};
 	} else {
 		payload = {
 			Subject: subject,
 			Content: content,
-			IsPrivated: setPrivated,
+			IsPrivated: privacy,
 			Category: category
 		};
 	}
@@ -95,20 +89,37 @@ function saveArticle() {
 			// showInfoDialog(err.message);
 		} else {
 			// showInfoDialog(data.message);
-			myArticle = null;
 			render('articles');
 		}
 	});
 }
 
+function confirmDelete(id) {
+	articleGuid = id;
+	if ($('#confirm-delete').length) {
+		$('#confirm-delete').modal('show');
+	} else {
+		let url = '/tcp/modals/confirm-delete.html';
+		$.ajax({
+			type: 'GET',
+			cache: false,
+			url: url
+		}).done(function(data) {
+			$(data).appendTo('body');
+			$('#confirm-delete').modal('show');
+		});
+	}
+}
+
 function deleteArticle() {
-	if (myArticle.Guid) {
-		SimonService.deleteArticle(myArticle.Guid, function(err, data) {
+	if (id) {
+		SimonService.deleteArticle(id, function(err, data) {
 			if (err) {
 				// showInfoDialog(err.message);
 			} else {
 				// showInfoDialog(data.message);
 				myArticle = null;
+				id = null;
 				render('articles');
 			}
 		});
@@ -119,17 +130,21 @@ function cancelEdit() {
 	render('articles');
 }
 
-// function articlePropertySetting() {
-// 	if (!$("input[name='category']:checked").val()) {
-// 		$("input[name='category']:first").attr('checked', 'true');
-// 	}
+function articleSetting() {
+	let category = null;
+	let privacy = null;
 
-// 	if (!$("input[name='setPrivated']:checked").val()) {
-// 		$("input[name='setPrivated']:first").attr('checked', 'true');
-// 	}
+	if (myArticle) {
+		category = convertChinese(myArticle.Category);
+		privacy = myArticle.IsPrivated ? 'Private' : 'Public';
+		privacy = convertChinese(privacy);
+	} else {
+		category = convertChinese('Daily');
+		privacy = convertChinese('Public');
+	}
 
-// 	category = $("input[name='category']:checked").val();
-// 	setPrivated = $("input[name='setPrivated']:checked").val();
+	console.log(category + ':' + privacy);
 
-// 	// setPrivated = (setPrivated === 'Private') ? 1: 0;
-// }
+	$('#category').val(category);
+	$('#privacy').val(privacy);
+}

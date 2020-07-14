@@ -17,6 +17,7 @@ function prepareDisplayView(id) {
 			if (article) {
 				// $('<span/>').addClass('translate').attr('data-args', article.Category).insertBefore($positionNav);
 				myArticle = article;
+				articleGuid = myArticle.Guid;
 				displayPositionInfo('display', myArticle.Category, myArticle.Subject);
 				showSingleArticle(article);
 				// setLocaleTo(LangID);
@@ -82,7 +83,7 @@ function createArticleFooter(articleGuid) {
 		})
 		.appendTo($footer); */
 
-	let $div = $('<div/>').addClass('col-sm-2 d-flex').appendTo($footer);
+	let $div = $('<div/>').addClass('col-sm-6 d-flex').appendTo($footer);
 	$('<a/>')
 		.addClass('translate')
 		.attr({
@@ -94,7 +95,7 @@ function createArticleFooter(articleGuid) {
 	$('<span/>').html('(' + count + ') ').appendTo($div);
 
 	if (isAdmin()) {
-		let $articleSetting = $('<div/>').addClass('col d-flex dropdown').appendTo($footer);
+		let $articleSetting = $('<div/>').addClass('col-sm-2 d-flex dropdown').appendTo($footer);
 		$('<button/>')
 			.addClass('btn btn-primary btn-sm dropdown-toggle translate')
 			.attr({
@@ -107,7 +108,7 @@ function createArticleFooter(articleGuid) {
 		$('<a/>')
 			.addClass('dropdown-item translate')
 			.attr({
-				href: "javascript: render('display', '" + myArticle.Guid + "')",
+				href: "javascript: render('edit', '" + myArticle.Guid + "')",
 				'data-args': 'Edit'
 			})
 			.appendTo($dropdownMenu);
@@ -116,7 +117,7 @@ function createArticleFooter(articleGuid) {
 			.addClass('dropdown-item translate')
 			.attr({
 				href: 'javascript: void(0)',
-				onclick: 'deleteArticle()',
+				onclick: "confirmDelete('" + myArticle.Guid + "')",
 				'data-args': 'Delete'
 			})
 			.appendTo($dropdownMenu);

@@ -1,18 +1,35 @@
 const router = require('express').Router();
+const config = require('config');
 const articleLogic = require('../logics/article-logic');
-
+const pagination = require('../middleware/pagination');
 const Utils = require('../utils/Utils');
 
 // redirect to new page 'article-editor.html'
-router.get('/', async (req, res, next) => {
+router.get('/', pagination(), async (req, res, next) => {
 	let type = req.query.type;
+	let offset = req.query.offset;
+	let from = req.query.from;
+	let state = req.query.state;
+
 	try {
 		let articles = null;
+
 		if (type === 'latest') {
 			articles = await articleLogic.getLatestArticle();
 		} else {
-			articles = await articleLogic.getArticles(type);
+			let total = null;
+			articles = await articleLogic.getArticles(type, from, offset);
+
+			// if not from index 0, pagination does not change
+			// therefore no need to query count
+			// after first loading page, currentState is aet as 0;
+			if (!from && state) {
+				let count = await articleLogic.count(type);
+				total = Math.ceil(count / config.pagination.perPage);
+				articles.push(total);
+			}
 		}
+
 		return res.status(200).json(articles);
 	} catch (err) {
 		return res.status(500).json(err);
