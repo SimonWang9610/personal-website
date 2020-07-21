@@ -67,6 +67,14 @@ var utils = {
 		} else {
 			return 'en';
 		}
+	},
+
+	getExtName: function(filename) {
+		let pos = filename.lastIndexOf('.');
+		if (pos !== -1) {
+			return filename.substring(pos + 1);
+		}
+		return null;
 	}
 };
 

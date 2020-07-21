@@ -92,6 +92,7 @@ module.exports.editArticle = function(article) {
 			params: params
 		})
 		.then((rs) => {
+			console.log('module.exports.editArticle -> rs', rs);
 			return rs.affectedRows;
 		});
 };
@@ -113,7 +114,10 @@ module.exports.createArticle = function(article) {
 		})
 		.then((rs) => {
 			if (rs.affectedRows === 1) {
-				return rs.affectedRows;
+				let results = {};
+				results.affectedRows = rs.affectedRows;
+				results.id = params.Guid;
+				return results;
 			} else {
 				throw new Error(rs.message);
 			}

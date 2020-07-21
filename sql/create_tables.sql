@@ -3,7 +3,8 @@ USE simonwangdb;
 DROP TABLE IF EXISTS t_article;
 DROP TABLE IF EXISTS t_comment;
 
-CREATE TABLE t_article (
+CREATE TABLE t_article
+(
 	Guid VARCHAR(36) NOT NULL PRIMARY KEY,
 	Subject VARCHAR(128) NULL,
 	Content VARCHAR(16000) NULL,
@@ -11,23 +12,50 @@ CREATE TABLE t_article (
 	CreationDate DATETIME NOT NULL,
 	Category VARCHAR(5) NOT NULL,
 	LastEditDate DATETIME NULL,
-	ViewsCount INT UNSIGNED DEFAULT 0
+	ViewsCount INT
+	UNSIGNED DEFAULT 0
 	-- FOREIGN KEY (Guid) REFERENCES t_comment(ArticleGuid)
 ) CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE t_comment (
+	CREATE TABLE t_comment (
 	ID INT(10) NOT NULL UNIQUE AUTO_INCREMENT,
-	Guid VARCHAR(36) NOT NULL PRIMARY KEY,
-	Content VARCHAR(1024) NOT NULL,
-	ArticleGuid VARCHAR(36) NOT NULL,
+	Guid VARCHAR
+	(36) NOT NULL PRIMARY KEY,
+	Content VARCHAR
+	(1024) NOT NULL,
+	ArticleGuid VARCHAR
+	(36) NOT NULL,
 	CreationDate DATETIME NOT NULL,
-	Author VARCHAR(128) NOT NULL,
-	FOREIGN KEY (ArticleGuid) REFERENCES t_article(Guid)
+	Author VARCHAR
+	(128) NOT NULL,
+	FOREIGN KEY
+	(ArticleGuid) REFERENCES t_article
+	(Guid)
 ) CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE t_admin (
-	Guid VARCHAR(36) NOT NULL PRIMARY KEY,
-	SaltKey VARCHAR(255) NOT NULL,
-	Password VARCHAR(255) NOT NULL,
-	LastLogin DATETIME NULL
+	CREATE TABLE t_admin
+	(
+		Guid VARCHAR(36) NOT NULL PRIMARY KEY,
+		SaltKey VARCHAR(255) NOT NULL,
+		Password VARCHAR(255) NOT NULL,
+		LastLogin DATETIME NULL
+	)
+	CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+	CREATE TABLE t_file (
+	ID BIGINT(12) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	Guid VARCHAR
+	(36) NOT NULL UNIQUE,
+	DownloadUrl VARCHAR
+	(128) NOT NULL UNIQUE,
+	OriginalName VARCHAR
+	(128) NOT NULL,
+	CreationDate DATETIME NOT NULL,
+	ContentType VARCHAR
+	(36) NOT NULL,
+	ArticleGuid VARCHAR
+	(36) NOT NULL,
+	FOREIGN KEY
+	(ArticleGuid) REFERENCES t_article
+	(Guid)
 ) CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;

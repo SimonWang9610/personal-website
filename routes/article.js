@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const config = require('config');
 const articleLogic = require('../logics/article-logic');
+const fileLogic = require('../logics/file-logic');
 const pagination = require('../middleware/pagination');
 const Utils = require('../utils/Utils');
 
@@ -63,7 +64,7 @@ router.get('/:id', async (req, res, next) => {
 // 	try {
 // 		let article = await articleLogic.getLatestArticle();
 // 		console.log(article);
-// 		return res.statu(200).json(article);
+// 		return res.status(200).json(article);
 // 	} catch(err) {
 // 		console.log(err);
 // 		return res.status(401).json(err);
@@ -71,16 +72,41 @@ router.get('/:id', async (req, res, next) => {
 // });
 
 //save the edited article
+// router.post('/edit/:id', (req, res, next) => {
+// 	let articleGuid = req.params.id;
+// 	let article = req.body;
+// 	article.Guid = articleGuid;
+// 	console.log(article);
+// 	return articleLogic
+// 		.editArticle(article)
+// 		.then((rowsAffected) => {
+// 			if (rowsAffected) {
+// 				return Utils.resp(res, true, 'ArticleEdited');
+// 			} else {
+// 				return Utils.resp(res, false, 'FailedEditArticle');
+// 			}
+// 		})
+// 		.catch((err) => {
+// 			console.log(err);
+// 			return res.json(err);
+// 		});
+// });
+
 router.post('/edit/:id', (req, res, next) => {
 	let articleGuid = req.params.id;
-	let article = req.body;
+	let payload = req.body;
+
+	let article = payload.article;
 	article.Guid = articleGuid;
-	console.log(article);
+
 	return articleLogic
 		.editArticle(article)
 		.then((rowsAffected) => {
 			if (rowsAffected) {
-				return Utils.resp(res, true, 'ArticleEdited');
+				fileLogic.saveFiles(articleGuid, payload.files).then((affectedRows) => {
+					console.log(' insert images affectedRows', affectedRows);
+					return Utils.resp(res, true, 'ArticleEdited');
+				});
 			} else {
 				return Utils.resp(res, false, 'FailedEditArticle');
 			}
@@ -92,12 +118,32 @@ router.post('/edit/:id', (req, res, next) => {
 });
 
 // create a new article
+// router.post('/create', (req, res, next) => {
+// 	let newArticle = req.body;
+// 	console.log(newArticle);
+// 	return articleLogic.createArticle(newArticle).then((rowsAffected) => {
+// 		if (rowsAffected) {
+// 			return Utils.resp(res, true, 'ArticleCreated!');
+// 		} else {
+// 			return Utils.resp(res, false, 'FailedCreateArticle');
+// 		}
+// 	});
+// });
+
 router.post('/create', (req, res, next) => {
-	let newArticle = req.body;
+	let payload = req.body;
+	let newArticle = payload.article;
 	console.log(newArticle);
-	return articleLogic.createArticle(newArticle).then((rowsAffected) => {
-		if (rowsAffected) {
-			return Utils.resp(res, true, 'ArticleCreated!');
+	return articleLogic.createArticle(newArticle).then((results) => {
+		if (results.affectedRows) {
+			fileLogic
+				.saveFiles(results.id, payload.files)
+				.then((affectedRows) => {
+					return Utils.resp(res, true, 'ArticleCreated!');
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		} else {
 			return Utils.resp(res, false, 'FailedCreateArticle');
 		}

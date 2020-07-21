@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+        <link rel='stylesheet' href='../../public/css/quill.css'>
+        <title>Quill Editor</title>
+    </head>
+    <body>
+        <div id="editor"></div>
+        <img src='../../public/tcp/assets/default-banner.png'>
+        <script src='../../public/js/jquery-3.5.1.js'></script>
+        <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+        <!-- <script src='../../public/tcp/quill/video-blot.js'></script> -->
+        <!-- <script src='../../public/tcp/quill/image-blot.js'></script> -->
+        <script>
+
+const InlineBlot = Quill.import('blots/inline');
+
+class NamedLinkBlot extends InlineBlot {
+  static create(value) {
+    const node = super.create(value);
+
+    node.setAttribute('href', value);
+    node.setAttribute('target', '_blank');
+    return node;
+  }
+}
+NamedLinkBlot.blotName = 'namedlink';
+NamedLinkBlot.tagName = 'A';
+
+Quill.register('formats/namedlink', NamedLinkBlot);
+
+const Tooltip = Quill.import('ui/tooltip');
+
+
+class NamedLinkTooltip extends Tooltip {
+  show() {
+    super.show();
+    this.root.classList.add('ql-editing');
+  }
+}
+
+NamedLinkTooltip.TEMPLATE = [
+  '<a class="ql-preview" target="_blank" href="about:blank"></a>',
+  '<input type="text" data-link="https://quilljs.com">',
+  'Url displayed',
+  '<input type="text" data-name="Link name">',
+  '<a class="ql-action"></a>',
+  '<a class="ql-remove"></a>',
+].join('');
+
+
+const QuillModule = Quill.import('core/module');
+
+class NamedLinkModule extends QuillModule {
+  constructor(quill, options) {
+    super(quill, options);
+    this.tooltip = new NamedLinkTooltip(this.quill, options.bounds);
+    this.quill.getModule('toolbar').addHandler('namedlink', this.namedLinkHandler.bind(this));
+  }
+
+  namedLinkHandler(value) {
+    if (value) {
+      var range = this.quill.getSelection();
+      if (range == null || range.length === 0) return;
+      var preview = this.quill.getText(range);
+      this.tooltip.show();
+    }
+  }
+}
+
+Quill.register('modules/namedlink', NamedLinkModule);
+
+const quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+      namedlink: {},
+      toolbar: {
+        container: [
+          'bold',
+          'link',
+          'namedlink'
+        ]
+      }
+    }
+  });
+
+
+        </script>
+    </body>
+</html>

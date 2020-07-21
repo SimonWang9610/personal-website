@@ -257,11 +257,11 @@ function createPrevious(position, positionIcon) {
 	return $li;
 }
 
-$(document).ready(function() {
-	$('.pagination li a').click(function(e) {
-		$('.pagination li.active').removeClass('active disabled');
-		let $parent = $(this).parent();
-		$parent.addClass('active disabled');
-		// e.preventDefault();
-	});
-});
+// $(document).ready(function() {
+// 	$('.pagination li a').click(function(e) {
+// 		$('.pagination li.active').removeClass('active disabled');
+// 		let $parent = $(this).parent();
+// 		$parent.addClass('active disabled');
+// 		// e.preventDefault();
+// 	});
+// });

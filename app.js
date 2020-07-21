@@ -7,7 +7,6 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const path = require('path');
-const fs = require('fs');
 const dot = require('dot');
 const config = require('config');
 // const {expressCspHeader, NONE, SELF} = require('express-csp-header');
@@ -17,11 +16,11 @@ const Utils = require('./utils/Utils');
 
 const commentRoute = require('./routes/comment');
 const adminRoute = require('./routes/admin');
-// const uploadRoute = require('./routes/upload');
-// const bannerRoute = require('./routes/banner');
+const uploadRoute = require('./routes/upload');
+const bannerRoute = require('./routes/banner');
 const articleRoute = require('./routes/article');
 // const likeRoute = require('./routes/like');
-// const vaultRoute = require('./routes/vault');
+const vaultRoute = require('./routes/vault');
 
 const app = express();
 
@@ -45,14 +44,13 @@ app.use(bodyParser.text());
 const dist = path.resolve(__dirname, 'public');
 app.use(express.static(dist));
 
+app.use('/api/v1/banner', bannerRoute);
 app.use('/api/v1/admin', adminRoute);
 // app.use('/api/v1/banner', bannerRoute);
 app.use('/api/v1/article', articleRoute);
-// app.use('/api/v1/valut', vaultRoute);
+app.use('/api/v1/vault', vaultRoute);
 app.use('/api/v1/comments', commentRoute);
-// app.use('/api/v1/likes', likesRoute);
-
-// app.use('/api/v1/messages', messageRoute);
+app.use('/api/v1/upload', uploadRoute);
 
 app.get('/', async (req, res, next) => {
 	console.log('---------------------');
@@ -66,7 +64,7 @@ app.get('/', async (req, res, next) => {
 		let templateParams = {
 			Title: title,
 			Navbar: await Utils.createNavbar(),
-			// Banner: await Utils.createBanner(),
+			Banner: Utils.createBanner(),
 			Footer: await Utils.createFooter()
 		};
 

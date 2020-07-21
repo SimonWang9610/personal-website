@@ -2,9 +2,11 @@
  * Author: Dengpan Wang
  * Date: 7/6/2020
  */
-var theUploadurl = '/api/v1/upload/article';
+var theUploadUrl = '/api/v1/upload/article';
 var myArticle = null;
 var articleGuid = null;
+var fileUrls = [];
+var fileOldNames = [];
 // var setPrivated = 0;
 // var category = 'Daily';
 
@@ -37,7 +39,6 @@ function prepareEditView(id) {
 function showEditor(article) {
 	if (article) {
 		$('#subject').val(article.Subject);
-		setPrivated = article.IsPrivated;
 		$('#editor').html(article.Content);
 
 		$('<button/>')
@@ -67,28 +68,44 @@ function saveArticle() {
 
 	let payload = null;
 
-	if (myArticle) {
+	if (myArticle.Guid) {
 		payload = {
-			Guid: myArticle.Guid,
-			Subject: subject,
-			Content: content,
-			IsPrivated: privacy,
-			Category: category
+			article: {
+				Guid: myArticle.Guid,
+				Subject: subject,
+				Content: content,
+				IsPrivated: privacy,
+				Category: category
+			},
+			files: {
+				urls: fileUrls,
+				oldNames: fileOldNames
+			}
 		};
 	} else {
 		payload = {
-			Subject: subject,
-			Content: content,
-			IsPrivated: privacy,
-			Category: category
+			article: {
+				Subject: subject,
+				Content: content,
+				IsPrivated: privacy,
+				Category: category
+			},
+			files: {
+				urls: fileUrls,
+				oldNames: fileOldNames
+			}
 		};
 	}
 	console.log(payload);
+
+	fileUrls = [];
+	fileOldNames = [];
 	SimonService.edit(payload, function(err, data) {
 		if (err) {
 			// showInfoDialog(err.message);
 		} else {
 			// showInfoDialog(data.message);
+
 			render('articles');
 		}
 	});

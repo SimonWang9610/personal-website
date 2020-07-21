@@ -1,43 +1,3 @@
-<!-- <div id='container'> -->
-	<!-- <div id='edit-article'> -->
-		<!-- <div class='position-info'> -->
-			<!-- <div class='position-nav'></div> -->
-		<!-- </div> -->
-<!--  -->
-		<!-- <div id='article-main'> -->
-			<!-- <form id='basic-form'> -->
-				<!--  -->
-				<!-- <div> -->
-					<!-- <label for='subject' class='translate' data-args='Subject'></label> -->
-					<!-- <input id='subject' type='text' name='subject'> -->
-				<!-- </div> -->
-				<!--  -->
-				<!-- <div id='editor'></div> -->
-				<!--  -->
-				<!-- <div id='article-properties'> -->
-					<!-- <div id='category'> -->
-						<!-- <input id='daily' type='radio' name='category' value='Daily'> -->
-						<!-- <label for='daily' class='translate' data-args='Daily'></label><br> -->
-						<!-- <input id='note' type='radio' name='category' value='Note'> -->
-						<!-- <label for='note' class='translate' data-args='Note'></label><br> -->
-					<!-- </div> -->
-					<!-- <div id='setPrivated'> -->
-						<!-- <input id='public' type='radio' name='setPrivated' value='Public'> -->
-						<!-- <label for='public' class='translate' data-args='Public'></label><br> -->
-						<!-- <input id='private' type='radio' name='setPrivated' value='Private'> -->
-						<!-- <label for='private' class='translate' data-args='Private'></label><br>	 -->
-					<!-- </div> -->
-<!--  -->
-					<!-- <div id='submit-form'> -->
-						<!-- <button class='translate' data-args='Save' type='button' onclick='saveArticle()'></button> -->
-						<!-- <button class='translate' data-args='Cancel' type='button' onclick='cancelEdit()'></button> -->
-					<!-- </div> -->
-				<!-- </div> -->
-			<!-- </form> -->
-		<!-- </div> -->
-	<!-- </div> -->
-<!-- </div> -->
-
 
 <div class='row'>
 	<div class='col d-flex bg-info justify-content-start position-info'>
@@ -56,8 +16,30 @@
 </div>
 
 <div class='row justify-content-center'>
+	<div class='col-sm-9 d-flex' id='toolbar'>
+		<select class='ql-size'>
+			<option selected></option>
+			<option value='large'></option>
+			<option value='huge'></option>
+		</select>
+		<button class="ql-header" value='1'></button>
+		<button class="ql-header" value='2'></button>
+		<button class="ql-code-block"></button>
+		<button class="ql-bold"></button>
+		<button class="ql-italic"></button>
+		<button class="ql-underline"></button>
+		<button class="ql-list" value='ordered'></button>
+		<button class="ql-list" value='bullet'></button>
+		<button class="ql-blockquote"></button>
+		<button class="ql-image"></button>
+		<button class="ql-video"></button>
+	</div>
+</div>
+
+<div class='row justify-content-center'>
 	<div class='col-sm-9 d-flex' id='editor'>
 	</div>
+	<input id='upload-image' type='file' style='display:none' accept='image.png, image/jpg' onchange='uploadImage(event)'>
 </div>' 
 
 <div class='row justify-content-center'>

@@ -39,12 +39,12 @@ function SimonServiceProvider(_service) {
 		service.postData(apiUrl, content, cb);
 	};
 
-	this.edit = function(content, cb) {
+	this.edit = function(payload, cb) {
 		let apiUrl = '/api/v1/article/create/';
 
-		if (content.Guid) apiUrl = '/api/v1/article/edit/' + content.Guid;
+		if (payload.article.Guid) apiUrl = '/api/v1/article/edit/' + payload.article.Guid;
 
-		service.postData(apiUrl, content, cb);
+		service.postData(apiUrl, payload, cb);
 	};
 
 	// this.save = function(contentType, content, cb) {

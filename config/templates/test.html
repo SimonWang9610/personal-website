@@ -130,6 +130,16 @@
       </form>
     </div>
 
+    <div class='row justify-content-center'>
+      <div class='col-sm-8'>
+        <ul class='pagination justify-content-center' style='margin: 20px 0'>
+          <li class="page-item active"><a href="#" class="page-link">1</a></li>
+          <li class="page-item"><a href="#" class="page-link">2</a></li>
+          <li class="page-item"><a href="#" class="page-link">3</a></li>
+        </ul>
+      </div>
+    </div>
+
 
     
       <footer class='page-footer bg-dark'>
@@ -159,6 +169,16 @@
         // $('#category').val('daily');
         // $('#privacy').val('private');
       // })
+
+      
+$(document).ready(function() {
+	$('.pagination li a').click(function(e) {
+		$('.pagination li.active').removeClass('active disabled');
+		let $parent = $(this).parent();
+		$parent.addClass('active disabled');
+		e.preventDefault();
+	});
+});
 
       function gather() {
         let category = $('#category').val();

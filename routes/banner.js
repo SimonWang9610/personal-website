@@ -1,17 +1,19 @@
 const router = require('express').Router();
 const Utils = require('../utils/Utils');
-const fs = require('fs');
-const defaultBannerFile = '/public/tcp/assets/default-banner.png';
+const path = require('path');
+const fs = require('fs-extra');
+const defaultBannerFile = path.join(__dirname, '../public/tcp/assets/default-banner.png');
+// make sure the file path is correct
 
 router.get('/', (req, res, next) => {
-	// let filePath = req.params.filePath;
+	/* fs.readFile(defaultBannerFile).then((data) => {
+		console.log(data);
+	}); */
 
-	// fs.readFile(filePath, function(err, data) {
-	// 	console.log('Starting stream banner');
-	// 	streamFile(defaultBannerFile, res);
-
-	// });
 	streamFile(defaultBannerFile, res);
+	/* console.log(req);
+	console.log('start streaming!');
+	streamFile(defaultBannerFile, res); */
 });
 
 function streamFile(filePath, res) {
