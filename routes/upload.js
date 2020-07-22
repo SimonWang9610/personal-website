@@ -17,7 +17,7 @@ router.post('/article', upload.array('files[]', 5), (req, res, next) => {
 	processFileForArticle(req, res);
 });
 
-// router.post('/article/:id', uploader.array('files[]', 5), (req, res, next) => {
+// router.post('/article/:id', upload.array('files[]', 5), (req, res, next) => {
 // 	processFileForExistArticle(req, res);
 // });
 
@@ -32,9 +32,10 @@ async function processFileForArticle(req, res) {
 		let tempPath = path.join(__dirname, '../vault/temp');
 
 		await fs.ensureDir(tempPath).then(() => {
-			let { newFileName, url } = createUrl(file.OriginalName);
+			let { newFileName, url, tempUrl } = createUrl(file.OriginalName);
 			file.url = url;
 			file.name = newFileName;
+			file.tempUrl = tempUrl;
 		});
 
 		let destPath = path.join(tempPath, file.name);
@@ -74,7 +75,8 @@ function createUrl(filename) {
 	let fileId = Utils.uuid();
 	let newFileName = fileId + '.' + Utils.getExtName(filename);
 	let url = createFileUrl(newFileName, true);
-	return { newFileName, url };
+	let tempUrl = '/api/v1/vault/temp/' + newFileName;
+	return { newFileName, url, tempUrl };
 }
 
 // function createImageColumns(filename) {

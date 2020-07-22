@@ -92,7 +92,6 @@ module.exports.editArticle = function(article) {
 			params: params
 		})
 		.then((rs) => {
-			console.log('module.exports.editArticle -> rs', rs);
 			return rs.affectedRows;
 		});
 };

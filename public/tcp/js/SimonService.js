@@ -57,13 +57,8 @@ function SimonServiceProvider(_service) {
 		service.deleteData(apiUrl, cb);
 	};
 
-	this.changeAsset = function(fileType, fileId, asset, cb) {
-		let apiUrl = '/api/v1/valut/' + fileType + '/' + fileId;
-		service.postData(apiUrl, asset, cb);
-	};
-
-	this.deleteAsset = function(assetUrl, cb) {
-		service.deleteData(assetUrl, cb);
+	this.deleteVaultFile = function(url, cb) {
+		service.deleteData(url, cb);
 	};
 
 	this.getComments = function(contentId, cb) {

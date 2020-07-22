@@ -12,11 +12,11 @@ function initQuill() {
 	});
 
 	myEditor.getModule('toolbar').addHandler('image', uploadImageHandler);
+	myEditor.getModule('toolbar').addHandler('video', uploadVideoHandler);
 
 	$image_btn.click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		console.log('goto uploadImageHandler()');
 		uploadImageHandler();
 	});
 }
@@ -25,10 +25,16 @@ function uploadImageHandler() {
 	const input = document.querySelector('#upload-image');
 	input.value = '';
 	input.click();
-	console.log('goto uploadImage(event)');
+}
+
+function uploadVideoHandler() {
+	let input = document.querySelector('#upload-video');
+	input.value = '';
+	input.click();
 }
 
 function uploadImage(event) {
+	console.log('uploadImage -> event', event);
 	let formData = new FormData();
 
 	formData.append('files[]', event.target.files[0]);
@@ -45,21 +51,67 @@ function uploadImage(event) {
 		success: function(data) {
 			if (data.success) {
 				let file = data.file;
-				console.log('uploadImage -> file', file);
 				let url = file.url;
 				fileOldNames.push(file.OriginalName);
-				console.log('uploadImage -> fileOldNames', fileOldNames);
 				fileUrls.push(url);
-				console.log('uploadImage -> fileUrls', fileUrls);
 
 				const addImageRange = myEditor.getSelection();
-				console.log('uploadImage -> addImageRange', addImageRange);
 				const newRange = 0 + (addImageRange !== null ? addImageRange.index : 0);
-				console.log('uploadImage -> newRange', newRange);
 
-				myEditor.insertEmbed(newRange, 'image', url, Quill.sources.USER);
+				myEditor.insertEmbed(
+					newRange,
+					'blockFigure',
+					{
+						image: url,
+						class: 'img-fluid'
+					},
+					Quill.sources.USER
+				);
 
 				myEditor.setSelection(1 + newRange);
+			}
+		},
+		error: function(err) {
+			console.log(err);
+		}
+	});
+}
+
+function uploadVideo(event) {
+	console.log('uploadVideo -> event', event);
+
+	let formData = new FormData();
+
+	formData.append('files[]', event.target.files[0]);
+
+	$.ajax({
+		type: 'POST',
+		url: theUploadUrl,
+		data: formData,
+		async: true,
+		cache: false,
+		contentType: false,
+		enctype: 'multipart/form-data',
+		processData: false,
+		success: function(data) {
+			if (data.success) {
+				let file = data.file;
+				let url = file.url;
+
+				const addVideoRange = myEditor.getSelection();
+				console.log('uploadVideo -> addVideoRange', addVideoRange);
+				const newRange = 0 + (addVideoRange ? addVideoRange.index : 0);
+
+				myEditor.insertEmbed(newRange, 'blockFigure', {
+					video: url,
+					class: 'video-fluid',
+					poster: file.poster,
+					controls: 'controls',
+					width: '100%',
+					height: '100%'
+				});
+
+				myEditor.setSelection(newRange + 1);
 			}
 		},
 		error: function(err) {

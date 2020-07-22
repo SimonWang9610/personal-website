@@ -55,43 +55,6 @@ router.get('/:id', async (req, res, next) => {
 	}
 });
 
-// router.get('/latest', async (req, res, next) => {
-
-// 	console.log(req.headers);
-// 	console.log(req.body);
-// 	console.log(req.params);
-
-// 	try {
-// 		let article = await articleLogic.getLatestArticle();
-// 		console.log(article);
-// 		return res.status(200).json(article);
-// 	} catch(err) {
-// 		console.log(err);
-// 		return res.status(401).json(err);
-// 	}
-// });
-
-//save the edited article
-// router.post('/edit/:id', (req, res, next) => {
-// 	let articleGuid = req.params.id;
-// 	let article = req.body;
-// 	article.Guid = articleGuid;
-// 	console.log(article);
-// 	return articleLogic
-// 		.editArticle(article)
-// 		.then((rowsAffected) => {
-// 			if (rowsAffected) {
-// 				return Utils.resp(res, true, 'ArticleEdited');
-// 			} else {
-// 				return Utils.resp(res, false, 'FailedEditArticle');
-// 			}
-// 		})
-// 		.catch((err) => {
-// 			console.log(err);
-// 			return res.json(err);
-// 		});
-// });
-
 router.post('/edit/:id', (req, res, next) => {
 	let articleGuid = req.params.id;
 	let payload = req.body;
@@ -116,19 +79,6 @@ router.post('/edit/:id', (req, res, next) => {
 			return res.json(err);
 		});
 });
-
-// create a new article
-// router.post('/create', (req, res, next) => {
-// 	let newArticle = req.body;
-// 	console.log(newArticle);
-// 	return articleLogic.createArticle(newArticle).then((rowsAffected) => {
-// 		if (rowsAffected) {
-// 			return Utils.resp(res, true, 'ArticleCreated!');
-// 		} else {
-// 			return Utils.resp(res, false, 'FailedCreateArticle');
-// 		}
-// 	});
-// });
 
 router.post('/create', (req, res, next) => {
 	let payload = req.body;
@@ -164,13 +114,36 @@ router.post('/view/:id', async (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
 	let articleGuid = req.params.id;
-	return articleLogic.deleteArticle(articleGuid).then((rowsAffected) => {
-		if (rowsAffected) {
-			return Utils.resp(res, true, 'ArticleDeleted');
-		} else {
-			return Utils.resp(res, false, 'FailedDeleteArticle');
-		}
-	});
+
+	return fileLogic
+		.deleteFiles(articleGuid)
+		.then((affectedRows) => {
+			return articleLogic.deleteArticle(articleGuid).then((results) => {
+				if (affectedRows) {
+					return Utils.resp(res, true, 'ArticleDeleted');
+				} else {
+					return Utils.resp(res, false, 'FailedDeleteArticle');
+				}
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 });
+/* return articleLogic
+		.deleteArticle(articleGuid)
+		.then((results) => {
+			if (results.affectedRows) {
+				fileLogic.deleteFiles(results.id).then((affectedRows) => {
+					return Utils.resp(res, true, 'ArticleDeleted');
+				});
+			} else {
+				return Utils.resp(res, false, 'FailedDeleteArticle');
+			}
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+}); */
 
 module.exports = router;

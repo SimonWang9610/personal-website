@@ -5,10 +5,8 @@
 var theUploadUrl = '/api/v1/upload/article';
 var myArticle = null;
 var articleGuid = null;
-var fileUrls = [];
-var fileOldNames = [];
-// var setPrivated = 0;
-// var category = 'Daily';
+var fileUrls = []; // store the new added image urls
+var fileOldNames = []; // store the new added image original names
 
 function prepareEditView(id) {
 	createAdminEntity();
@@ -68,7 +66,7 @@ function saveArticle() {
 
 	let payload = null;
 
-	if (myArticle.Guid) {
+	if (myArticle) {
 		payload = {
 			article: {
 				Guid: myArticle.Guid,
@@ -129,14 +127,16 @@ function confirmDelete(id) {
 }
 
 function deleteArticle() {
-	if (id) {
-		SimonService.deleteArticle(id, function(err, data) {
+	$('#confirm-delete').modal('hide');
+
+	if (articleGuid) {
+		SimonService.deleteArticle(articleGuid, function(err, data) {
 			if (err) {
 				// showInfoDialog(err.message);
 			} else {
 				// showInfoDialog(data.message);
 				myArticle = null;
-				id = null;
+				articleGuid = null;
 				render('articles');
 			}
 		});
@@ -144,7 +144,19 @@ function deleteArticle() {
 }
 
 function cancelEdit() {
-	render('articles');
+	// empty /vault/temp
+	$.ajax({
+		type: 'DELETE',
+		url: '/api/v1/vault/empty',
+		contentType: 'application/json',
+		dataType: 'json',
+		success: function() {
+			render('articles');
+		},
+		error: function(err) {
+			console.error(err);
+		}
+	});
 }
 
 function articleSetting() {

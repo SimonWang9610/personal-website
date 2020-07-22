@@ -13,7 +13,6 @@ module.exports.saveFiles = function(articleGuid, files) {
 		files.urls.forEach(async (url, index) => {
 			let { sourcePath, destFolder, destPath, filename } = splitFileUrl(url);
 			let { downloadUrl, id } = formatUrl(destPath, filename);
-			console.log('module.exports.saveFiles -> downloadUrl', downloadUrl);
 			downloadUrls.push(downloadUrl);
 			ids.push(id);
 			contentTypes.push(MimeType.getContentType(filename));
@@ -21,50 +20,28 @@ module.exports.saveFiles = function(articleGuid, files) {
 			await fs.ensureDir(destFolder);
 			await fs.move(sourcePath, destPath);
 		});
-		console.log(downloadUrls);
 
 		return fileModel.saveFiles(ids, downloadUrls, files.oldNames, contentTypes, articleGuid);
 	} else {
 		let affectedRows = 0;
-		return affectedRows;
+		return Promise.resolve(affectedRows);
 	}
 };
-/* try {
-			await fs.ensureDir(destFolder);
-			await fs.move(sourcePath, destPath);
-			let contentType = MimeType.getContentType(filename);
-			let affectedRows = await fileModel.saveFiles(
-				id,
-				downloadUrl,
-				files.oldNames[index],
-				contentType,
-				articleGuid
-			);
-			console.log('module.exports.saveFiles -> affectedRows', affectedRows);
-		} catch (err) {
-			throw err;
-		}
-	});
-	return Promise.resolve(); */
 
-module.exports.deleteFile = function(fileGuid) {
-	return fileModel.deleteFile(fileGuid);
+module.exports.deleteFiles = function(articleGuid) {
+	return fileModel.deleteFiles(articleGuid);
 };
 
 function splitFileUrl(url) {
 	let pos = url.indexOf('vault');
 	let namePos = url.lastIndexOf('/');
 	let filename = url.substring(namePos + 1);
-	console.log('splitFileUrl -> filename', filename);
 
 	let destFolder = path.join(__dirname, '../', url.substring(pos, namePos));
-	console.log('splitFileUrl -> destFolder', destFolder);
 
 	let sourcePath = path.join(__dirname, '../', 'vault/temp', filename);
-	console.log('splitFileUrl -> sourcePath', sourcePath);
 
 	let destPath = path.join(__dirname, '../', url.substring(pos));
-	console.log('splitFileUrl -> destPath', destPath);
 
 	return { sourcePath, destFolder, destPath, filename };
 }

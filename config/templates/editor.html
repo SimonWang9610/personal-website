@@ -3,9 +3,12 @@
     <head>
         <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
         <link rel='stylesheet' href='../../public/css/quill.css'>
+        
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
         <title>Quill Editor</title>
     </head>
     <body>
+        <button><i class='fas fa-trash-alt'></i></button>
         <div id="editor"></div>
         <img src='../../public/tcp/assets/default-banner.png'>
         <script src='../../public/js/jquery-3.5.1.js'></script>
@@ -78,8 +81,7 @@ const quill = new Quill('#editor', {
       toolbar: {
         container: [
           'bold',
-          'link',
-          'namedlink'
+          'link'
         ]
       }
     }

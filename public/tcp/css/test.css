@@ -11,6 +11,10 @@
 	margin-left: 8px;
 }
 
+#update-content {
+	flex-direction: column;
+}
+
 .position-nav button {
 	margin-right: 30px;
 }
@@ -23,11 +27,19 @@
 	margin-right: 8px;
 }
 
-#article-subject span {
+#article-content {
+	flex-direction: column;
+}
+
+#article-subject {
 	text-align: center;
 }
 
 .navbar-nav li {
 	margin-left: 30px;
 	margin-right: 20px;
+}
+
+.row {
+	margin-bottom: 5px;
 }

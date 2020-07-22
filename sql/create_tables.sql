@@ -30,7 +30,7 @@ CREATE TABLE t_article
 	(128) NOT NULL,
 	FOREIGN KEY
 	(ArticleGuid) REFERENCES t_article
-	(Guid)
+	(Guid) ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 	CREATE TABLE t_admin
@@ -57,5 +57,5 @@ CREATE TABLE t_article
 	(36) NOT NULL,
 	FOREIGN KEY
 	(ArticleGuid) REFERENCES t_article
-	(Guid)
+	(Guid) ON DELETE CASCADE ON UPDATE CASCADE
 ) CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;
