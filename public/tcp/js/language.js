@@ -48,7 +48,10 @@ $.i18n().load({
 		SetAs: 'Set as',
 		Privacy: 'Privacy',
 		Category: 'Category',
-		Add: 'Add'
+		Add: 'Add',
+		Apply: 'Apply',
+		URL: 'URL',
+		CreateLink: 'Add New Link'
 	},
 	zh: {
 		Title: '标题: ',
@@ -99,6 +102,9 @@ $.i18n().load({
 		SetAs: '设为',
 		Privacy: '权限',
 		Category: '分类',
-		Add: '发表'
+		Add: '发表',
+		Apply: '添加',
+		URL: '地址',
+		CreateLink: '添加新链接'
 	}
 });

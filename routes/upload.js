@@ -6,7 +6,6 @@ const config = require('config');
 const path = require('path');
 const moment = require('moment');
 const Utils = require('../utils/Utils');
-const fileLogic = require('../logics/file-logic');
 const MimeType = require('../utils/MimeType');
 
 const upload = multer({
@@ -39,11 +38,12 @@ async function processFileForArticle(req, res) {
 		});
 
 		let destPath = path.join(tempPath, file.name);
+		console.log('processFileForArticle -> file', file);
 		// store file in local temp directory
 		fs
 			.copy(sourcePath, destPath)
 			.then(() => {
-				sendResponse(true, 'Image Uploaded', file, res);
+				sendResponse(true, 'File Uploaded', file, res);
 			})
 			.catch((err) => {
 				res.json(err);
@@ -93,6 +93,9 @@ function createFileUrl(name, isImage) {
 	let url = '/api/v1';
 	if (isImage) {
 		folder = '/images/' + getFileUploadSubFolder();
+		url += '/vault' + folder + '/' + name;
+	} else {
+		folder = '/videos/' + getFileUploadSubFolder();
 		url += '/vault' + folder + '/' + name;
 	}
 	return url;

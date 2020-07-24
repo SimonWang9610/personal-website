@@ -1,5 +1,5 @@
-const Module = Quill.import('core/module');
 const BlockEmbed = Quill.import('blots/block/embed');
+const Delta = Quill.import('delta');
 
 function deleteImage(url, node) {
 	SimonService.deleteVaultFile(url, function(err, data) {
@@ -95,7 +95,7 @@ class FigureBlot extends BlockEmbed {
 				video.classList.add('img-border');
 			});
 
-			video.adddEventListener('mouseout', (e) => {
+			video.addEventListener('mouseout', (e) => {
 				let toolbar = document.querySelector('.widget-embed-toolbar');
 				if (toolbar) {
 					toolbar.style.display = 'none';
@@ -105,9 +105,17 @@ class FigureBlot extends BlockEmbed {
 
 			figureContainer.appendChild(video);
 			console.log('FigureBlot -> create -> video', video);
+		} else if (value.embed) {
+			let iframe = document.createElement('iframe');
+			iframe.setAttribute('src', value.embed);
+			iframe.setAttribute('width', value.width);
+			iframe.setAttribute('height', value.height);
+			iframe.setAttribute('allowfullscreen', 'true');
+			iframe.setAttribute('frameborder', '0');
+			figureContainer.appendChild(iframe);
 		}
 
-		node.className = value.figureClass ? value.figureClass : 'article-embed-block';
+		node.className = value.figureClass ? value.figureClass : 'article-block';
 		node.setAttribute('contenteditable', 'false');
 		node.setAttribute('draggle', 'true');
 
@@ -151,6 +159,7 @@ class FigureBlot extends BlockEmbed {
 
 	focus() {
 		console.log('-------FigureBlot: focus()');
+		console.log(this.domNode);
 		let toolbar = this.domNode.querySelector('.widget-embed-toolbar');
 
 		if (toolbar) {

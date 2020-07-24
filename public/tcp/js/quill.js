@@ -1,11 +1,13 @@
 var myEditor = null;
+var linkRange = null;
 
 function initQuill() {
-	var toolbarOptions = [ [ 'bold', 'italic' ], [ 'link', 'image' ] ];
+	// var toolbarOptions = [ [ 'bold', 'italic' ], [ 'link', 'image' ] ];
 	const $image_btn = $('.ql-image');
 
 	myEditor = new Quill('#editor', {
 		modules: {
+			magicUrl: {},
 			toolbar: '#toolbar'
 		},
 		theme: 'snow'
@@ -13,6 +15,7 @@ function initQuill() {
 
 	myEditor.getModule('toolbar').addHandler('image', uploadImageHandler);
 	myEditor.getModule('toolbar').addHandler('video', uploadVideoHandler);
+	myEditor.getModule('toolbar').addHandler('link', insertLinkHandler);
 
 	$image_btn.click(function(e) {
 		e.preventDefault();
@@ -33,8 +36,55 @@ function uploadVideoHandler() {
 	input.click();
 }
 
+function insertLinkHandler() {
+	if ($('#add-link').length) {
+		$('#add-link').modal('show');
+		$('#link-title').val();
+		$('#link-href').val('https://');
+	} else {
+		let url = '/tcp/modals/new-link.html';
+		$.ajax({
+			type: 'GET',
+			cache: false,
+			url: url
+		}).done(function(data) {
+			$(data).appendTo('body');
+			setLocaleTo(LangID);
+			$('#add-link').modal('show');
+			$('#link-title').val();
+			$('#link-href').val('https://');
+			linkRange = myEditor.getSelection();
+		});
+	}
+}
+
+function insertLink() {
+	let title = $('#link-title').val();
+	let url = $('#link-href').val();
+
+	let [ leaf ] = myEditor.getLeaf(linkRange.index);
+	let newRange = 0 + (linkRange ? linkRange.index : 0);
+	console.log('insertLink -> leaf', leaf);
+
+	if (leaf.text) {
+		newRange = myEditor.getIndex(leaf);
+		leaf.remove();
+	}
+
+	let ops = new Delta().retain(newRange).insert(title, {
+		link: {
+			url: url,
+			title: title
+		}
+	});
+	console.log('insertLink -> ops', ops);
+
+	myEditor.updateContents(ops, Quill.sources.USER);
+	myEditor.setSelection(newRange + title.length);
+	$('#add-link').modal('hide');
+}
+
 function uploadImage(event) {
-	console.log('uploadImage -> event', event);
 	let formData = new FormData();
 
 	formData.append('files[]', event.target.files[0]);
@@ -78,8 +128,6 @@ function uploadImage(event) {
 }
 
 function uploadVideo(event) {
-	console.log('uploadVideo -> event', event);
-
 	let formData = new FormData();
 
 	formData.append('files[]', event.target.files[0]);
@@ -97,9 +145,10 @@ function uploadVideo(event) {
 			if (data.success) {
 				let file = data.file;
 				let url = file.url;
+				fileOldNames.push(file.OriginalName);
+				fileUrls.push(url);
 
 				const addVideoRange = myEditor.getSelection();
-				console.log('uploadVideo -> addVideoRange', addVideoRange);
 				const newRange = 0 + (addVideoRange ? addVideoRange.index : 0);
 
 				myEditor.insertEmbed(newRange, 'blockFigure', {

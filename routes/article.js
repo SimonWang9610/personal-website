@@ -60,6 +60,7 @@ router.post('/edit/:id', (req, res, next) => {
 	let payload = req.body;
 
 	let article = payload.article;
+	console.log('article', article);
 	article.Guid = articleGuid;
 
 	return articleLogic
