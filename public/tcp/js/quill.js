@@ -37,6 +37,8 @@ function uploadVideoHandler() {
 }
 
 function insertLinkHandler() {
+	linkRange = myEditor.getSelection();
+
 	if ($('#add-link').length) {
 		$('#add-link').modal('show');
 		$('#link-title').val();
@@ -53,7 +55,6 @@ function insertLinkHandler() {
 			$('#add-link').modal('show');
 			$('#link-title').val();
 			$('#link-href').val('https://');
-			linkRange = myEditor.getSelection();
 		});
 	}
 }
@@ -66,6 +67,7 @@ function insertLink() {
 	let newRange = 0 + (linkRange ? linkRange.index : 0);
 	console.log('insertLink -> leaf', leaf);
 
+	// remove the original domNode
 	if (leaf.text) {
 		newRange = myEditor.getIndex(leaf);
 		leaf.remove();
@@ -77,7 +79,6 @@ function insertLink() {
 			title: title
 		}
 	});
-	console.log('insertLink -> ops', ops);
 
 	myEditor.updateContents(ops, Quill.sources.USER);
 	myEditor.setSelection(newRange + title.length);

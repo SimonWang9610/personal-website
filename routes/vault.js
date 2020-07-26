@@ -31,6 +31,27 @@ router.get('/images/:folder/:filename', (req, res, next) => {
 		});
 });
 
+router.get('/videos/:folder/:filename', (req, res, next) => {
+	let folder = req.params.folder;
+	let filename = req.params.filename;
+
+	let filePath = path.join(__dirname, '../vault/videos', folder, filename);
+	fs
+		.pathExists(filePath)
+		.then((exists) => {
+			if (exists) {
+				streamFile(res, filePath);
+			} else {
+				let url = '/api/v1/vault/temp/' + filename;
+				console.log('redirecting');
+				res.redirect(url);
+			}
+		})
+		.catch((err) => {
+			res.end(err);
+		});
+});
+
 router.delete('/images/:folder/:filename', (req, res, next) => {
 	let folder = req.params.folder;
 	let filename = req.params.filename;
@@ -41,6 +62,27 @@ router.delete('/images/:folder/:filename', (req, res, next) => {
 		.remove(filePath)
 		.then(() => {
 			console.log('removed from vault/images', filename);
+			return fs.remove(tempPath).then(() => {
+				console.log('remove from vault/temp', filename);
+				return Utils.resp(res, true, 'RemoveFiles');
+			});
+		})
+		.catch((err) => {
+			console.log(err);
+			return Utils.resp(res, false, 'FailedRemoveFile');
+		});
+});
+
+router.delete('/videos/:folder/:filename', (req, res, next) => {
+	let folder = req.params.folder;
+	let filename = req.params.filename;
+
+	let filePath = path.join(__dirname, '../vault/videos', folder, filename);
+	let tempPath = path.join(__dirname, '../vault/temp', filename);
+	return fs
+		.remove(filePath)
+		.then(() => {
+			console.log('removed from vault/videos', filename);
 			return fs.remove(tempPath).then(() => {
 				console.log('remove from vault/temp', filename);
 				return Utils.resp(res, true, 'RemoveFiles');

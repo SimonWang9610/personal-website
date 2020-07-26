@@ -11,6 +11,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # config file
 config/*.json
+vault/
 # Runtime data
 pids
 *.pid

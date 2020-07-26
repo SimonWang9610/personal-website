@@ -31,7 +31,8 @@ async function processFileForArticle(req, res) {
 		let tempPath = path.join(__dirname, '../vault/temp');
 
 		await fs.ensureDir(tempPath).then(() => {
-			let { newFileName, url, tempUrl } = createUrl(file.OriginalName);
+			let isImage = MimeType.isImageFile(file.OriginalName);
+			let { newFileName, url, tempUrl } = createUrl(file.OriginalName, isImage);
 			file.url = url;
 			file.name = newFileName;
 			file.tempUrl = tempUrl;
@@ -71,10 +72,10 @@ function formatFileName(filename) {
 	return filename;
 }
 
-function createUrl(filename) {
+function createUrl(filename, isImage) {
 	let fileId = Utils.uuid();
 	let newFileName = fileId + '.' + Utils.getExtName(filename);
-	let url = createFileUrl(newFileName, true);
+	let url = createFileUrl(newFileName, isImage);
 	let tempUrl = '/api/v1/vault/temp/' + newFileName;
 	return { newFileName, url, tempUrl };
 }
