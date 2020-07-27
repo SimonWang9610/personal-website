@@ -22,6 +22,7 @@ const articleRoute = require('./routes/article');
 // const likeRoute = require('./routes/like');
 const vaultRoute = require('./routes/vault');
 
+const completeApi = require('./middleware/api.js');
 const app = express();
 
 i18n.configure({
@@ -44,6 +45,7 @@ app.use(bodyParser.text());
 const dist = path.resolve(__dirname, 'public');
 app.use(express.static(dist));
 
+app.use(completeApi);
 app.use('/api/v1/banner', bannerRoute);
 app.use('/api/v1/admin', adminRoute);
 // app.use('/api/v1/banner', bannerRoute);

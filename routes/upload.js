@@ -76,7 +76,7 @@ function createUrl(filename, isImage) {
 	let fileId = Utils.uuid();
 	let newFileName = fileId + '.' + Utils.getExtName(filename);
 	let url = createFileUrl(newFileName, isImage);
-	let tempUrl = '/api/v1/vault/temp/' + newFileName;
+	let tempUrl = '/temp/' + newFileName;
 	return { newFileName, url, tempUrl };
 }
 
@@ -91,14 +91,14 @@ function createUrl(filename, isImage) {
 
 function createFileUrl(name, isImage) {
 	let folder = null;
-	let url = '/api/v1';
+	let url = null;
 	if (isImage) {
 		folder = '/images/' + getFileUploadSubFolder();
-		url += '/vault' + folder + '/' + name;
 	} else {
 		folder = '/videos/' + getFileUploadSubFolder();
-		url += '/vault' + folder + '/' + name;
 	}
+	url = folder + '/' + name;
+
 	return url;
 }
 
